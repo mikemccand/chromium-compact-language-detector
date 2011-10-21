@@ -44,3 +44,45 @@ place, 2) open-sourcing it, and 3) choosing a generous LICENSE for the
 source code.
 
 Your ideas will go further if you don't insist on going with them!
+
+
+
+USING THE PYTHON LIBRARY
+
+Once you've compiled & installed the Python bindings (see
+INSTALL.txt), detection is easy.
+
+First, you must get your content (plain text or HTML) encoded into
+UTF8 bytes.  Then, detect like this:
+
+  topLanguageCode, topLanguageName, isReliable, details = cld.detect(bytes)
+
+The code and name of the top language is returned.  isReliable is True
+if the top language is much better than 2nd best language.  details
+has an entry per top 3 languages that matched, that includes the
+percent confidence of the match as well as a separate normalized
+score.
+
+The detect method takes optional params:
+
+  * isPlainText (default is False): set to True if you know your bytes
+    don't have any XML/HTML markup
+
+  * includeExtendedLanguages (default is True): set to False to
+    exclude "extended" languages added by Google
+
+  * hintTopLevelDomain (default is None): set to the last part of the
+    domain name that the content came from (for example if the URL was
+    http://www.krasnahora.cz, pass the string 'cz').  This gives a
+    hint that can bias the detector somewhat.
+
+  * hintLanguage (default is None): set to the possible language.  For
+    example, if the web-server declared the language, or the content
+    itself embedded an http-equiv meta tag declaring the language,
+    pass this (for example, "ITALIAN").  This gives a hint that can
+    bias the detector somewhat.
+
+  * hintEncoding (default is None): set to the original encoding of
+    the content (note you still must pass UTF-8 encoded bytes).  This
+    gives a hint that can bias the detector somewhat.  NOTE: this is
+    currently not working.
