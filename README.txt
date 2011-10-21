@@ -36,7 +36,11 @@ simplify/refactor the code, etc.
 I have only tested this on Fedora 13 with Python 2.6.4; it passes all
 tests in test.py there (python -u test.py).
 
-This is a simple example.cc showing how to use the library from C++
-code.
+There is also a simple example.cc showing basic usage from C++ code.
 
-Michael McCandless [mail a t mikemccandless dot com]
+Finally: I'd like to thank Google and the Chromium team and the
+original Google toolbar authors for 1) creating CLD in the first
+place, 2) open-sourcing it, and 3) choosing a generous LICENSE for the
+source code.
+
+Your ideas will go further if you don't insist on going with them!

@@ -4,23 +4,31 @@
 
 import cld
 import unittest
-from testData import *
+import sys
 
-# MKM: ported from FullTests in compact_lang_det_unittest_small.cc
+from testData import *
 
 VERBOSE = False
 
+# MKM: ported from FullTests in compact_lang_det_unittest_small.cc
+
 class TestCLD(unittest.TestCase):
+
+  langsSeen = set()
 
   def runOne(self, expectedLang, s):
     if VERBOSE:
       print
       print 'Test: %s [%d bytes]' % (expectedLang, len(s))
-    detectedLangCode, detectedLang, isReliable = cld.detectFromUTF8(s, 1)
+    detectedLangCode, detectedLang, isReliable, details = cld.detectFromUTF8(s)
     if VERBOSE:
       print '  detected: %s' % detectedLang
       print '  reliable: %s' % (isReliable != 0)
+      print '  details: %s' % str(details)
+      self.langsSeen.add(expectedLang)
+      print '  %d langs' % len(self.langsSeen)
     self.assertEquals(expectedLang, detectedLang)
+    self.assertTrue(isReliable)
 
   def testAFRIKAANS(self):
     self.runOne('AFRIKAANS', kTeststr_af_Latn)
@@ -178,7 +186,7 @@ class TestCLD(unittest.TestCase):
   def testHINDI(self):
     self.runOne('HINDI', kTeststr_hi_Deva)
     
-  def testHINDI(self):
+  def testHINDI2(self):
     self.runOne('HINDI', kTeststr_ks)
     
   def testCROATIAN(self):

@@ -4,31 +4,132 @@
 
 #include "encodings/compact_lang_det/compact_lang_det.h"
 #include "encodings/compact_lang_det/ext_lang_enc.h"
+#include "encodings/proto/encodings.pb.h"
 
 static PyObject *CLDError;
 
 static PyObject *
-detectFromUTF8(PyObject *self, PyObject *args) {
+detectFromUTF8(PyObject *self, PyObject *args, PyObject *kwArgs) {
   char *bytes;
   int numBytes;
-  int isPlainText;
 
-  if (!PyArg_ParseTuple(args, "s#i", &bytes, &numBytes, &isPlainText)) {
+  int isPlainText = 0;
+  int includeExtendedLanguages = 1;
+
+  // "id" boosts Indonesian;
+  const char* hintTopLevelDomain = "";
+
+  // ITALIAN boosts it
+  const char* hintLanguage = NULL;
+
+  // SJS boosts Japanese
+  const char* hintEncoding = NULL;
+
+  static const char *kwList[] = {"utf8Bytes",
+                                 "isPlainText",
+                                 "includeExtendedLanguages",
+                                 "hintTopLevelDomain",
+                                 "hintLanguage",
+                                 "hintEncoding",
+                                 NULL};
+
+  if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|iisss",
+                                   (char **)kwList,
+                                   &bytes, &numBytes,
+                                   &isPlainText,
+                                   &includeExtendedLanguages,
+                                   &hintTopLevelDomain,
+                                   &hintLanguage,
+                                   &hintEncoding)) {
     return NULL;
   }
 
-  bool isReliable;
-  Language lang = CompactLangDet::DetectLanguage(0, bytes, numBytes,
-                                                 isPlainText != 0,
-                                                 &isReliable);
+  Language hintLanguageEnum;
+  if (hintLanguage == NULL) {
+    // no hint
+    hintLanguageEnum = UNKNOWN_LANGUAGE;
+  } else if (!LanguageFromCode(hintLanguage, &hintLanguageEnum)) {
+    PyErr_Format(CLDError, "Unrecognized language hint code (got '%s')", hintLanguage);
+    return NULL;
+  }
 
-  return Py_BuildValue("(ssi)", ExtLanguageCode(lang), ExtLanguageName(lang), isReliable ? 1 : 0);
+  int hintEncodingEnum;
+  if (hintEncoding == NULL) {
+    // no hint
+    hintEncodingEnum = UNKNOWN_ENCODING;
+  } else {
+    // TODO: looks like the fwd map is in
+    // encodings/proto/encodings.pb.h but no function to
+    // look up the reverse...?
+    PyErr_Format(CLDError, "Cannot handle encoding hints yet (got '%s')", hintEncoding);
+    return NULL;
+  }
+    
+  bool isReliable;
+  Language language3[3];
+  int percent3[3];
+  double normalized_score3[3];
+  int textBytesFound;
+  if (includeExtendedLanguages != 0) {
+     CompactLangDet::ExtDetectLanguageSummary(0,
+                                              bytes, numBytes,
+                                              isPlainText != 0,
+                                              hintTopLevelDomain,
+                                              hintEncodingEnum,
+                                              hintLanguageEnum,
+                                              language3,
+                                              percent3,
+                                              normalized_score3,
+                                              &textBytesFound,
+                                              &isReliable);
+  } else {
+    // TODO: apparently you cannot get normalized_score3?
+    CompactLangDet::DetectLanguageSummary(0,
+                                          bytes, numBytes,
+                                          isPlainText != 0,
+                                          hintTopLevelDomain,
+                                          hintEncodingEnum,
+                                          hintLanguageEnum,
+                                          language3,
+                                          percent3,
+                                          &textBytesFound,
+                                          &isReliable);
+  }
+
+  PyObject *details = PyList_New(0);
+  Language topLang = UNKNOWN_LANGUAGE;
+  for(int idx=0;idx<3;idx++) {
+    Language lang = language3[idx];
+    if (lang == UNKNOWN_LANGUAGE) {
+      break;
+    }
+    if (topLang == UNKNOWN_LANGUAGE) {
+      topLang = lang;
+    }
+
+    PyObject *oneDetail = Py_BuildValue("(ssif)",
+                                        ExtLanguageCode(lang),
+                                        ExtLanguageName(lang),
+                                        percent3[idx],
+                                        normalized_score3[idx]);
+    PyList_Append(details, oneDetail);
+    Py_DECREF(oneDetail);
+  }
+
+  // nocommit double check ref counts
+  PyObject *result = Py_BuildValue("(ssiO)",
+                                   ExtLanguageCode(topLang),
+                                   ExtLanguageName(topLang),
+                                   isReliable ? 1 : 0,
+                                   details);
+  Py_DECREF(details);
+  return result;
 }
 
 static PyMethodDef CLDMethods[] = {
-    {"detectFromUTF8",  detectFromUTF8, METH_VARARGS,
-     "Detect language from a UTF8 string."},
-    {NULL, NULL, 0, NULL}        /* Sentinel */
+  {"detectFromUTF8",  (PyCFunction) detectFromUTF8, METH_VARARGS | METH_KEYWORDS,
+   "Detect language from a UTF8 string."},
+  {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
 PyMODINIT_FUNC
@@ -38,7 +139,7 @@ initcld() {
     return;
   }
   
-  CLDError = PyErr_NewException("cld.error", NULL, NULL);
+  CLDError = PyErr_NewException((char *) "cld.error", NULL, NULL);
   Py_INCREF(CLDError);
   PyModule_AddObject(m, "error", CLDError);
 }

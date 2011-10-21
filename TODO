@@ -1,8 +1,9 @@
-expose more apis
-  "extra" langs
-  top 3 not just top 1
-  aceepts-hints
-
 make file
 
 dynamic lib
+
+test on py 3.x
+
+document / eg of the kw args to detect
+
+is there a unit test that also covers extended langs?
