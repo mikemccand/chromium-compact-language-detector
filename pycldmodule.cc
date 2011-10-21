@@ -108,8 +108,8 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
     }
 
     PyObject *oneDetail = Py_BuildValue("(ssif)",
-                                        ExtLanguageCode(lang),
                                         ExtLanguageName(lang),
+                                        ExtLanguageCode(lang),
                                         percent3[idx],
                                         normalized_score3[idx]);
     PyList_Append(details, oneDetail);
@@ -117,8 +117,8 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   }
 
   PyObject *result = Py_BuildValue("(ssOO)",
-                                   ExtLanguageCode(topLang),
                                    ExtLanguageName(topLang),
+                                   ExtLanguageCode(topLang),
                                    isReliable ? Py_True : Py_False,
                                    details);
   Py_DECREF(details);

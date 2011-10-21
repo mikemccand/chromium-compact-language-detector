@@ -16,18 +16,18 @@ class TestCLD(unittest.TestCase):
 
   langsSeen = set()
 
-  def runOne(self, expectedLang, s):
+  def runOne(self, expectedLangName, s):
     if VERBOSE:
       print
       print 'Test: %s [%d bytes]' % (expectedLang, len(s))
-    detectedLangCode, detectedLang, isReliable, details = cld.detect(s)
+    detectedLangName, detectedLangCode, isReliable, details = cld.detect(s)
     if VERBOSE:
-      print '  detected: %s' % detectedLang
+      print '  detected: %s' % detectedLangName
       print '  reliable: %s' % (isReliable != 0)
       print '  details: %s' % str(details)
-      self.langsSeen.add(expectedLang)
+      self.langsSeen.add(expectedLangName)
       print '  %d langs' % len(self.langsSeen)
-    self.assertEquals(expectedLang, detectedLang)
+    self.assertEquals(expectedLangName, detectedLangName)
     self.assertTrue(isReliable)
 
   def testAFRIKAANS(self):

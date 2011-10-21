@@ -55,7 +55,7 @@ INSTALL.txt), detection is easy.
 First, you must get your content (plain text or HTML) encoded into
 UTF8 bytes.  Then, detect like this:
 
-  topLanguageCode, topLanguageName, isReliable, details = cld.detect(bytes)
+  topLanguageName, topLanguageCode, isReliable, details = cld.detect(bytes)
 
 The code and name of the top language is returned.  isReliable is True
 if the top language is much better than 2nd best language.  details
