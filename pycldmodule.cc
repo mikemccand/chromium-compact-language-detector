@@ -9,7 +9,7 @@
 static PyObject *CLDError;
 
 static PyObject *
-detectFromUTF8(PyObject *self, PyObject *args, PyObject *kwArgs) {
+detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   char *bytes;
   int numBytes;
 
@@ -17,7 +17,7 @@ detectFromUTF8(PyObject *self, PyObject *args, PyObject *kwArgs) {
   int includeExtendedLanguages = 1;
 
   // "id" boosts Indonesian;
-  const char* hintTopLevelDomain = "";
+  const char* hintTopLevelDomain = NULL;
 
   // ITALIAN boosts it
   const char* hintLanguage = NULL;
@@ -33,7 +33,7 @@ detectFromUTF8(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                  "hintEncoding",
                                  NULL};
 
-  if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|iisss",
+  if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|iizzz",
                                    (char **)kwList,
                                    &bytes, &numBytes,
                                    &isPlainText,
@@ -116,18 +116,17 @@ detectFromUTF8(PyObject *self, PyObject *args, PyObject *kwArgs) {
     Py_DECREF(oneDetail);
   }
 
-  // nocommit double check ref counts
-  PyObject *result = Py_BuildValue("(ssiO)",
+  PyObject *result = Py_BuildValue("(ssOO)",
                                    ExtLanguageCode(topLang),
                                    ExtLanguageName(topLang),
-                                   isReliable ? 1 : 0,
+                                   isReliable ? Py_True : Py_False,
                                    details);
   Py_DECREF(details);
   return result;
 }
 
 static PyMethodDef CLDMethods[] = {
-  {"detectFromUTF8",  (PyCFunction) detectFromUTF8, METH_VARARGS | METH_KEYWORDS,
+  {"detect",  (PyCFunction) detect, METH_VARARGS | METH_KEYWORDS,
    "Detect language from a UTF8 string."},
   {NULL, NULL, 0, NULL}        /* Sentinel */
 };
