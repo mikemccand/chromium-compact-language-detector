@@ -19,11 +19,12 @@ class TestCLD(unittest.TestCase):
   def runOne(self, expectedLangName, s):
     if VERBOSE:
       print
-      print 'Test: %s [%d bytes]' % (expectedLang, len(s))
-    detectedLangName, detectedLangCode, isReliable, details = cld.detect(s)
+      print 'Test: %s [%d bytes]' % (expectedLangName, len(s))
+    detectedLangName, detectedLangCode, isReliable, textBytesFound, details = cld.detect(s)
     if VERBOSE:
       print '  detected: %s' % detectedLangName
       print '  reliable: %s' % (isReliable != 0)
+      print '  textBytes: %s' % textBytesFound
       print '  details: %s' % str(details)
       self.langsSeen.add(expectedLangName)
       print '  %d langs' % len(self.langsSeen)

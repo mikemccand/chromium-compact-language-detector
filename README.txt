@@ -55,12 +55,14 @@ INSTALL.txt), detection is easy.
 First, you must get your content (plain text or HTML) encoded into
 UTF8 bytes.  Then, detect like this:
 
-  topLanguageName, topLanguageCode, isReliable, details = cld.detect(bytes)
+  topLanguageName, topLanguageCode, isReliable, textBytesFound, details = cld.detect(bytes)
 
 The code and name of the top language is returned.  isReliable is True
-if the top language is much better than 2nd best language.  details
-has an entry per top 3 languages that matched, that includes the
-percent confidence of the match as well as a separate normalized
+if the top language is much better than 2nd best language.
+textBytesFound tells you how many actual bytes CLD analyzed (after
+removing HTML tags, collapsing areas of too-many-spaces, etc.).
+details has an entry per top 3 languages that matched, that includes
+the percent confidence of the match as well as a separate normalized
 score.
 
 The detect method takes optional params:

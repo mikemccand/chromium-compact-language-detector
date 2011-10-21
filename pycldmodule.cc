@@ -49,6 +49,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
     // no hint
     hintLanguageEnum = UNKNOWN_LANGUAGE;
   } else if (!LanguageFromCode(hintLanguage, &hintLanguageEnum)) {
+    // TODO: maybe LookupError?
     PyErr_Format(CLDError, "Unrecognized language hint code (got '%s')", hintLanguage);
     return NULL;
   }
@@ -116,10 +117,11 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
     Py_DECREF(oneDetail);
   }
 
-  PyObject *result = Py_BuildValue("(ssOO)",
+  PyObject *result = Py_BuildValue("(ssOiO)",
                                    ExtLanguageName(topLang),
                                    ExtLanguageCode(topLang),
                                    isReliable ? Py_True : Py_False,
+                                   textBytesFound,
                                    details);
   Py_DECREF(details);
   return result;
