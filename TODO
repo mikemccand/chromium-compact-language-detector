@@ -7,3 +7,7 @@ test on py 3.x
 document / eg of the kw args to detect
 
 is there a unit test that also covers extended langs?
+
+add test case for binary data, empty string, etc.
+
+get hintEncoding working!
