@@ -15,7 +15,6 @@ SOURCES="encodings/compact_lang_det/cldutil.cc \
         encodings/compact_lang_det/ext_lang_enc.cc \
         encodings/compact_lang_det/getonescriptspan.cc \
         encodings/compact_lang_det/letterscript_enum.cc \
-        encodings/compact_lang_det/subsetsequence.cc \
         encodings/compact_lang_det/tote.cc \
         encodings/compact_lang_det/generated/cld_generated_score_quadchrome_0406.cc \
         encodings/compact_lang_det/generated/compact_lang_det_generated_cjkbis_0.cc \
@@ -33,7 +32,7 @@ SOURCES="encodings/compact_lang_det/cldutil.cc \
 
 echo
 echo "Compile..."
-gcc -c $CFLAGS $SOURCES
+$CC -c $CFLAGS $SOURCES
 
 echo
 echo "Make libcld.a"
@@ -41,58 +40,7 @@ $AR rcs libcld.a *.o
 
 echo
 echo "Compile example.cc"
-gcc -DCLD_WINDOWS -I. -L. -o example example.cc -lcld -lstdc++
+$CC -DCLD_WINDOWS -I. -L. -o example example.cc -lcld -lstdc++
 
 echo
 echo "Done!"
-
-# NOTE: headers
-
-#        'encodings/compact_lang_det/cldutil.h',
-#        'encodings/compact_lang_det/cldutil_dbg.h',
-#        'encodings/compact_lang_det/compact_lang_det.h',
-#        'encodings/compact_lang_det/compact_lang_det_impl.h',
-#        'encodings/compact_lang_det/ext_lang_enc.h',
-#        'encodings/compact_lang_det/getonescriptspan.h',
-#        'encodings/compact_lang_det/letterscript_enum.h',
-#        'encodings/compact_lang_det/subsetsequence.h',
-#        'encodings/compact_lang_det/tote.h',
-#        'encodings/compact_lang_det/utf8propjustletter.h',
-#        'encodings/compact_lang_det/utf8propletterscriptnum.h',
-#        'encodings/compact_lang_det/utf8scannotjustletterspecial.h',
-#        'encodings/compact_lang_det/generated/compact_lang_det_generated_meanscore.h',
-#        'encodings/compact_lang_det/win/cld_basictypes.h',
-#        'encodings/compact_lang_det/win/cld_commandlineflags.h',
-#        'encodings/compact_lang_det/win/cld_google.h',
-#        'encodings/compact_lang_det/win/cld_htmlutils.h',
-#        'encodings/compact_lang_det/win/cld_logging.h',
-#        'encodings/compact_lang_det/win/cld_macros.h',
-#        'encodings/compact_lang_det/win/cld_strtoint.h',
-#        'encodings/compact_lang_det/win/cld_unicodetext.h',
-#        'encodings/compact_lang_det/win/cld_unilib.h',
-#        'encodings/compact_lang_det/win/cld_utf.h',
-#        'encodings/compact_lang_det/win/cld_utf8statetable.h',
-#        'encodings/compact_lang_det/win/cld_utf8utils.h',
-#        'encodings/proto/encodings.pb.h',
-#        'encodings/public/encodings.h',
-#        'languages/proto/languages.pb.h',
-#        'languages/public/languages.h',
-#        'base/basictypes.h',
-#        'base/build_config.h',
-#        'base/casts.h',
-#        'base/commandlineflags.h',
-#        'base/global_strip_options.h',
-#        'base/logging.h',
-#        'base/macros.h',
-#        'base/port.h',
-#        'base/crash.h',
-#        'base/dynamic_annotations.h',
-#        'base/scoped_ptr.h',
-#        'base/stl_decl_msvc.h',
-#        'base/log_severity.h',
-#        'base/strtoint.h',
-#        'base/vlog_is_on.h',
-#        'base/string_util.h',
-#        'base/type_traits.h',
-#        'base/template_util.h',
-
