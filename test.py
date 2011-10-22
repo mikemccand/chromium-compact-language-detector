@@ -391,7 +391,6 @@ class TestCLD(unittest.TestCase):
     
   # def testKINYARWANDA(self):
   #   self.runOne('KINYARWANDA', kTeststr_rw_Latn)
-  
 
   # def testSANSKRIT(self):
   #   self.runOne('SANSKRIT', kTeststr_sa_Deva)
