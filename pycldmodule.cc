@@ -50,7 +50,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
     hintLanguageEnum = UNKNOWN_LANGUAGE;
   } else if (!LanguageFromCode(hintLanguage, &hintLanguageEnum)) {
     // TODO: maybe LookupError?
-    PyErr_Format(CLDError, "Unrecognized language hint code (got '%s')", hintLanguage);
+    PyErr_Format(CLDError, "Unrecognized language hint code (got '%s'); note that currently external languages cannot be hinted", hintLanguage);
     return NULL;
   }
 
@@ -71,6 +71,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   int percent3[3];
   double normalized_score3[3];
   int textBytesFound;
+  Py_BEGIN_ALLOW_THREADS
   if (includeExtendedLanguages != 0) {
      CompactLangDet::ExtDetectLanguageSummary(0,
                                               bytes, numBytes,
@@ -96,6 +97,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                           &textBytesFound,
                                           &isReliable);
   }
+  Py_END_ALLOW_THREADS
 
   PyObject *details = PyList_New(0);
   Language topLang = UNKNOWN_LANGUAGE;
