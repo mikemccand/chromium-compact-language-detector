@@ -84,14 +84,7 @@ namespace CompactLangDet {
   //  probable then the second-best Language. Calculation is a complex function
   //  of the length of the text and the different-script runs of text.
   // Return value: the most likely Language for the majority of the input text
-  //  Length 0 input returns UNKNOWN_LANGUAGE. Very short indeterminate text
-  //  defaults to ENGLISH.
-  //
-  // The first two versions return ENGLISH instead of UNKNOWN_LANGUAGE, for
-  // backwards compatibility with LLD.
-  //
-  // The third version may return UNKNOWN_LANGUAGE, and also returns extended
-  // language codes from ext_lang_enc.h
+  //  Length 0 input returns UNKNOWN_LANGUAGE.
   //
   // Subsetting: For fast detection over large documents, these routines will
   // scan non-tag text of the initial part of a document, then will
@@ -104,91 +97,37 @@ namespace CompactLangDet {
     const UTF8PropObj* unigram_obj;
   };
 
-  // Scan interchange-valid UTF-8 bytes and detect most likely language
-  Language DetectLanguage(const DetectionTables* tables,
-                          const char* buffer,
-                          int buffer_length,
-                          bool is_plain_text,
-                          bool* is_reliable);
-
   // Scan interchange-valid UTF-8 bytes and detect list of top 3 languages.
-  // language3[0] is also the return value
-  Language DetectLanguageSummary(
-                          const DetectionTables* tables,
-                          const char* buffer,
-                          int buffer_length,
-                          bool is_plain_text,
-                          Language* language3,
-                          int* percent3,
-                          int* text_bytes,
-                          bool* is_reliable);
-
-  // Same as above, with hints supplied
-  // Scan interchange-valid UTF-8 bytes and detect list of top 3 languages.
-  // language3[0] is also the return value
-  Language DetectLanguageSummary(
-                          const DetectionTables* tables,
-                          const char* buffer,
-                          int buffer_length,
-                          bool is_plain_text,
-                          const char* tld_hint,       // "id" boosts Indonesian
-                          int encoding_hint,          // SJS boosts Japanese
-                          Language language_hint,     // ITALIAN boosts it
-                          Language* language3,
-                          int* percent3,
-                          int* text_bytes,
-                          bool* is_reliable);
-
-  // Scan interchange-valid UTF-8 bytes and detect list of top 3 extended
-  // languages.
+  //
+  // Accepts hints to bias languagepriors.
   //
   // Extended languages are additional Google interface languages and Unicode
   // single-language scripts, from ext_lang_enc.h. They are experimental and
   // this call may be removed.
   //
-  // language3[0] is also the return value
-  Language ExtDetectLanguageSummary(
-                          const DetectionTables* tables,
-                          const char* buffer,
-                          int buffer_length,
-                          bool is_plain_text,
-                          Language* language3,
-                          int* percent3,
-                          int* text_bytes,
-                          bool* is_reliable);
-
-  // Same as above, with hints supplied
-  // Scan interchange-valid UTF-8 bytes and detect list of top 3 extended
-  // languages.
-  //
-  // Extended languages are additional Google interface languages and Unicode
-  // single-language scripts, from ext_lang_enc.h. They are experimental and
-  // this call may be removed.
-  //
-  // language3[0] is also the return value
-  Language ExtDetectLanguageSummary(
-                          const DetectionTables* tables,
-                          const char* buffer,
-                          int buffer_length,
-                          bool is_plain_text,
-                          const char* tld_hint,       // "id" boosts Indonesian
-                          int encoding_hint,          // SJS boosts Japanese
-                          Language language_hint,     // ITALIAN boosts it
-                          Language* language3,
-                          int* percent3,
-                          int* text_bytes,
-                          bool* is_reliable);
-
-  // Same as above, and also returns internal language scores as a ratio to
+  // Returns internal language scores as a ratio to
   // normal score for real text in that language. Scores close to 1.0 indicate
   // normal text, while scores far away from 1.0 indicate badly-skewed text or
   // gibberish
   //
-  Language ExtDetectLanguageSummary(
+  // If do_pick_summary_lang is true then CLD will sometimes
+  // not pick the top-scoring language; see CalcSummaryLang
+  // in compact_lang_det_impl.cc.  If it's false then the
+  // top language is always returned.
+  //
+  // If do_remove_weak_matches is true then CLD will delete
+  // poor scoring languages from the results, so that if a
+  // language is returned there is some confidence it is
+  // correct.
+  //
+  Language DetectLanguage(
                           const DetectionTables* tables,
                           const char* buffer,
                           int buffer_length,
                           bool is_plain_text,
+                          bool do_allow_extended_languages,
+                          bool do_pick_summary_language,
+                          bool do_remove_weak_matches,
                           const char* tld_hint,       // "id" boosts Indonesian
                           int encoding_hint,          // SJS boosts Japanese
                           Language language_hint,     // ITALIAN boosts it

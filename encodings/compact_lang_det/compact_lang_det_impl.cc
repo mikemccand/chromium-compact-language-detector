@@ -2090,6 +2090,8 @@ Language CompactLangDetImpl::DetectLanguageSummaryV25(
                         const char* buffer,
                         int buffer_length,
                         bool is_plain_text,
+                        bool do_pick_summary_language,
+                        bool do_remove_weak_matches,
                         const char* tld_hint,       // "id" boosts Indonesian
                         int encoding_hint,          // SJS boosts Japanese
                         Language language_hint,     // ITALIAN boosts it
@@ -2233,6 +2235,8 @@ Language CompactLangDetImpl::DetectLanguageSummaryV25(
                           buffer,
                           buffer_length,
                           is_plain_text,
+                          do_pick_summary_language,
+                          do_remove_weak_matches,
                           tld_hint,               // "id" boosts Indonesian
                           encoding_hint,          // SJS boosts Japanese
                           language_hint,          // ITALIAN boosts it
@@ -2397,8 +2401,11 @@ Language CompactLangDetImpl::DetectLanguageSummaryV25(
   if (have_good_answer) {
     // This is the real, non-recursive return
 
-    // Move bytes for unreliable langs to another lang or UNKNOWN
-    RemoveUnreliableLanguages(&doc_tote);
+    // Move bytes for unreliable langs to another lang or
+    // UNKNOWN
+    if (do_remove_weak_matches) {
+      RemoveUnreliableLanguages(&doc_tote);
+    }
 
     // Redo the result extraction after the removal above
     doc_tote.Sort(3);
@@ -2468,9 +2475,13 @@ Language CompactLangDetImpl::DetectLanguageSummaryV25(
 #endif
 
     Language summary_lang;
-    CalcSummaryLang(&doc_tote, total_text_bytes,
-                    reliable_percent3, language3, percent3,
-                    &summary_lang, is_reliable);
+    if (do_pick_summary_language) {
+      CalcSummaryLang(&doc_tote, total_text_bytes,
+                      reliable_percent3, language3, percent3,
+                      &summary_lang, is_reliable);
+    } else {
+      summary_lang = language3[0];
+    }
 
     if (FLAGS_cld_html) {
       for (int i = 0; i < 3; ++i) {
@@ -2518,6 +2529,8 @@ Language CompactLangDetImpl::DetectLanguageSummaryV25(
                         buffer,
                         buffer_length,
                         is_plain_text,
+                        do_pick_summary_language,
+                        do_remove_weak_matches,
                         tld_hint,               // "id" boosts Indonesian
                         encoding_hint,          // SJS boosts Japanese
                         language_hint,          // ITALIAN boosts it
@@ -2543,6 +2556,8 @@ Language CompactLangDetImpl::DetectLanguageSummaryV25(
                         buffer,
                         buffer_length,
                         is_plain_text,
+                        do_pick_summary_language,
+                        do_remove_weak_matches,
                         tld_hint,               // "id" boosts Indonesian
                         encoding_hint,          // SJS boosts Japanese
                         language_hint,          // ITALIAN boosts it

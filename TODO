@@ -23,3 +23,5 @@ make thread stress test
 remove dead files
 
 memory leak...?
+
+return list of all detectable langs

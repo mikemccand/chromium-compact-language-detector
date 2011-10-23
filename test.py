@@ -20,7 +20,7 @@ class TestCLD(unittest.TestCase):
     if VERBOSE:
       print
       print 'Test: %s [%d bytes]' % (expectedLangName, len(s))
-    detectedLangName, detectedLangCode, isReliable, textBytesFound, details = cld.detect(s)
+    detectedLangName, detectedLangCode, isReliable, textBytesFound, details = cld.detect(s, pickSummaryLanguage=True)
     if VERBOSE:
       print '  detected: %s' % detectedLangName
       print '  reliable: %s' % (isReliable != 0)

@@ -14,6 +14,8 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   int numBytes;
 
   int isPlainText = 0;
+  int pickSummaryLanguage = 0;
+  int removeWeakLanguages = 1;
   int includeExtendedLanguages = 1;
 
   // "id" boosts Indonesian;
@@ -31,16 +33,20 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                  "hintTopLevelDomain",
                                  "hintLanguage",
                                  "hintEncoding",
+                                 "pickSummaryLanguage",
+                                 "removeWeakLanguages",
                                  NULL};
 
-  if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|iizzz",
-                                   (char **)kwList,
+  if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|iizzzii",
+                                   (char **) kwList,
                                    &bytes, &numBytes,
                                    &isPlainText,
                                    &includeExtendedLanguages,
                                    &hintTopLevelDomain,
                                    &hintLanguage,
-                                   &hintEncoding)) {
+                                   &hintEncoding,
+                                   &pickSummaryLanguage,
+                                   &removeWeakLanguages)) {
     return NULL;
   }
 
@@ -71,43 +77,29 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   int percent3[3];
   double normalized_score3[3];
   int textBytesFound;
+  Language sumLang;
   Py_BEGIN_ALLOW_THREADS
-  if (includeExtendedLanguages != 0) {
-     CompactLangDet::ExtDetectLanguageSummary(0,
-                                              bytes, numBytes,
-                                              isPlainText != 0,
-                                              hintTopLevelDomain,
-                                              hintEncodingEnum,
-                                              hintLanguageEnum,
-                                              language3,
-                                              percent3,
-                                              normalized_score3,
-                                              &textBytesFound,
-                                              &isReliable);
-  } else {
-    // TODO: apparently you cannot get normalized_score3?
-    CompactLangDet::DetectLanguageSummary(0,
-                                          bytes, numBytes,
-                                          isPlainText != 0,
-                                          hintTopLevelDomain,
-                                          hintEncodingEnum,
-                                          hintLanguageEnum,
-                                          language3,
-                                          percent3,
-                                          &textBytesFound,
-                                          &isReliable);
-  }
+  sumLang = CompactLangDet::DetectLanguage(0,
+                                           bytes, numBytes,
+                                           isPlainText != 0,
+                                           includeExtendedLanguages != 0,
+                                           pickSummaryLanguage != 0,
+                                           removeWeakLanguages != 0,
+                                           hintTopLevelDomain,
+                                           hintEncodingEnum,
+                                           hintLanguageEnum,
+                                           language3,
+                                           percent3,
+                                           normalized_score3,
+                                           &textBytesFound,
+                                           &isReliable);
   Py_END_ALLOW_THREADS
 
   PyObject *details = PyList_New(0);
-  Language topLang = UNKNOWN_LANGUAGE;
   for(int idx=0;idx<3;idx++) {
     Language lang = language3[idx];
     if (lang == UNKNOWN_LANGUAGE) {
       break;
-    }
-    if (topLang == UNKNOWN_LANGUAGE) {
-      topLang = lang;
     }
 
     PyObject *oneDetail = Py_BuildValue("(ssif)",
@@ -120,8 +112,8 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   }
 
   PyObject *result = Py_BuildValue("(ssOiO)",
-                                   ExtLanguageName(topLang),
-                                   ExtLanguageCode(topLang),
+                                   ExtLanguageName(sumLang),
+                                   ExtLanguageCode(sumLang),
                                    isReliable ? Py_True : Py_False,
                                    textBytesFound,
                                    details);

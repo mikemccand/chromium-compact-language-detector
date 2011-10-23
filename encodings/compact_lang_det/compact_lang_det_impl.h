@@ -148,6 +148,8 @@ namespace CompactLangDetImpl {
                         const char* buffer,
                         int buffer_length,
                         bool is_plain_text,
+                        bool do_pick_summary_language,
+                        bool do_remove_weak_matches,
                         const char* tld_hint,       // "id" boosts Indonesian
                         int encoding_hint,          // SJS boosts Japanese
                         Language language_hint,     // ITALIAN boosts it

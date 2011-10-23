@@ -88,3 +88,16 @@ The detect method takes optional params:
     the content (note you still must pass UTF-8 encoded bytes).  This
     gives a hint that can bias the detector somewhat.  NOTE: this is
     currently not working.
+
+  * pickSummaryLanguage (default is False): if False, CLD will always
+    return the top matching language as the answer.  If True, it will
+    sometimes pick 2nd or 3rd match (for example, if English and X
+    match, where X (not UNK) is big enough, assume the English is
+    boilerplate and return X).  In simple testing accuracy seems to
+    suffer a bit (XX to YY %) when this is True so I've defaulted to
+    False.
+
+  * removeWeakLanguages (default is True): if a match isn't strong
+    enough, delete it.  This ensures some amount of confidence when a
+    language is returned.
+
