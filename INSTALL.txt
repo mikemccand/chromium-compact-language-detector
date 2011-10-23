@@ -10,6 +10,10 @@ build everything:
 
   source ./build.sh
 
+On Windows, open a command prompt and run this instead:
+
+  ./build.win.cmd
+
 If it succeeds it should print something like this:
 
   Compile...
@@ -38,6 +42,13 @@ TO BUILD PYTHON BINDINGS:
 After building libcld.a (above), just run this:
 
   python -u setup.py build
+
+NOTE: on OS X Snow Leopard, I had to do this first:
+
+  export ARCHFLAGS="-arch x86_64"
+
+otherwise distutils tries to build for PPC arch as well, and then
+base/build_config.h is unhappy.
 
 You should see output something like this (varies by platform):
 
