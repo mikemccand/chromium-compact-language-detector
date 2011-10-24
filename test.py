@@ -1,3 +1,4 @@
+# coding=utf-8
 # Copyright (c) 2009 The Chromium Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
@@ -15,6 +16,7 @@ VERBOSE = False
 class TestCLD(unittest.TestCase):
 
   langsSeen = set()
+  detLangsSeen = set()
 
   def runOne(self, expectedLangName, s, shouldBeReliable=True):
     if VERBOSE:
@@ -27,7 +29,17 @@ class TestCLD(unittest.TestCase):
       print '  textBytes: %s' % textBytesFound
       print '  details: %s' % str(details)
       self.langsSeen.add(expectedLangName)
-      print '  %d langs' % len(self.langsSeen)
+      for tup in details:
+        self.detLangsSeen.add(tup[0])
+      print '  %d langs; %d ever detected' % (len(self.langsSeen), len(self.detLangsSeen))
+
+      if False:
+        if expectedLangName == 'YIDDISH':
+          l = list(self.detLangsSeen)
+          l.sort()
+          for i, name in enumerate(l):
+            print '  PyTuple_SET_ITEM(pyDetLangs, %d, PyString_FromString("%s"));' % (i, name)
+        
     self.assertEquals(expectedLangName, detectedLangName, '%s != %s; details: %s' % (detectedLangName, expectedLangName, str(details)))
     self.assertTrue(not shouldBeReliable or isReliable)
 
@@ -556,6 +568,9 @@ class TestCLD(unittest.TestCase):
     
   def testCHINESE_T(self):
     self.runOne('ChineseT', kTeststr_zh_TW)
+
+  def testINDONESIAN(self):
+    self.runOne('INDONESIAN', kTeststr_id)
     
   # def testZULU(self):
   #   self.runOne('ZULU', kTeststr_zu_Latn)
@@ -571,4 +586,3 @@ if __name__ == '__main__':
 #   GALICIAN (commented out test fails: detects spanish)
 #   ZHUANG (two commented out tests fail)
 #   LIMBU (test fails)
-#   INDONESIAN (no test)
