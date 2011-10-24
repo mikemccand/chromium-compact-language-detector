@@ -32,7 +32,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
 
   int isPlainText = 0;
   int pickSummaryLanguage = 0;
-  int removeWeakLanguages = 1;
+  int removeWeakMatches = 1;
   int includeExtendedLanguages = 1;
 
   // "id" boosts Indonesian;
@@ -51,7 +51,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                  "hintLanguageCode",
                                  "hintEncoding",
                                  "pickSummaryLanguage",
-                                 "removeWeakLanguages",
+                                 "removeWeakMatches",
                                  NULL};
 
   if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|iizzzii",
@@ -63,7 +63,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                    &hintLanguageCode,
                                    &hintEncoding,
                                    &pickSummaryLanguage,
-                                   &removeWeakLanguages)) {
+                                   &removeWeakMatches)) {
     return NULL;
   }
 
@@ -98,7 +98,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                            isPlainText != 0,
                                            includeExtendedLanguages != 0,
                                            pickSummaryLanguage != 0,
-                                           removeWeakLanguages != 0,
+                                           removeWeakMatches != 0,
                                            hintTopLevelDomain,
                                            hintEncodingEnum,
                                            hintLanguageEnum,

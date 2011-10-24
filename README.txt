@@ -97,7 +97,7 @@ The detect method takes optional params:
     suffer a bit (XX to YY %) when this is True so I've defaulted to
     False.
 
-  * removeWeakLanguages (default is True): if a match isn't strong
+  * removeWeakMatches (default is True): if a match isn't strong
     enough, delete it.  This ensures some amount of confidence when a
     language is returned.
 
