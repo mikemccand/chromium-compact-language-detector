@@ -1,12 +1,29 @@
+// Copyright (c) 2011 Michael McCandless. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
 #include <Python.h>
 
 #define CLD_WINDOWS
 
 #include "encodings/compact_lang_det/compact_lang_det.h"
 #include "encodings/compact_lang_det/ext_lang_enc.h"
-#include "encodings/proto/encodings.pb.h"
+#include "base/string_util.h"
+#include "cld_encodings.h"
 
 static PyObject *CLDError;
+
+static bool EncodingFromName(const char *name, Encoding *answer) {
+  for (int encIDX=0;encIDX<NUM_ENCODINGS;encIDX++) {
+    if (!base::strcasecmp(name, cld_encoding_info[encIDX].name)) {
+      *answer = cld_encoding_info[encIDX].encoding;
+      return true;
+    }
+  }
+  *answer = UNKNOWN_ENCODING;
+
+  return false;
+}
 
 static PyObject *
 detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
@@ -22,7 +39,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   const char* hintTopLevelDomain = NULL;
 
   // ITALIAN boosts it
-  const char* hintLanguage = NULL;
+  const char* hintLanguageCode = NULL;
 
   // SJS boosts Japanese
   const char* hintEncoding = NULL;
@@ -31,7 +48,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                  "isPlainText",
                                  "includeExtendedLanguages",
                                  "hintTopLevelDomain",
-                                 "hintLanguage",
+                                 "hintLanguageCode",
                                  "hintEncoding",
                                  "pickSummaryLanguage",
                                  "removeWeakLanguages",
@@ -43,7 +60,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                    &isPlainText,
                                    &includeExtendedLanguages,
                                    &hintTopLevelDomain,
-                                   &hintLanguage,
+                                   &hintLanguageCode,
                                    &hintEncoding,
                                    &pickSummaryLanguage,
                                    &removeWeakLanguages)) {
@@ -51,24 +68,21 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   }
 
   Language hintLanguageEnum;
-  if (hintLanguage == NULL) {
+  if (hintLanguageCode == NULL) {
     // no hint
     hintLanguageEnum = UNKNOWN_LANGUAGE;
-  } else if (!LanguageFromCode(hintLanguage, &hintLanguageEnum)) {
+  } else if (!LanguageFromCode(hintLanguageCode, &hintLanguageEnum)) {
     // TODO: maybe LookupError?
-    PyErr_Format(CLDError, "Unrecognized language hint code (got '%s'); note that currently external languages cannot be hinted", hintLanguage);
+    PyErr_Format(CLDError, "Unrecognized language hint code (got '%s'); see cld.LANGUAGES for recognized language codes (note that currently external languages cannot be hinted)", hintLanguageCode);
     return NULL;
   }
 
-  int hintEncodingEnum;
+  Encoding hintEncodingEnum;
   if (hintEncoding == NULL) {
     // no hint
     hintEncodingEnum = UNKNOWN_ENCODING;
-  } else {
-    // TODO: looks like the fwd map is in
-    // encodings/proto/encodings.pb.h but no function to
-    // look up the reverse...?
-    PyErr_Format(CLDError, "Cannot handle encoding hints yet (got '%s')", hintEncoding);
+  } else if (!EncodingFromName(hintEncoding, &hintEncodingEnum)) {
+    PyErr_Format(CLDError, "Unrecognized encoding hint code (got '%s'); see cld.ENCODINGS for recognized encodings", hintEncoding);
     return NULL;
   }
     
@@ -129,12 +143,43 @@ static PyMethodDef CLDMethods[] = {
 
 PyMODINIT_FUNC
 initcld() {
-  PyObject *m = Py_InitModule("cld", CLDMethods);
+  PyObject* m = Py_InitModule("cld", CLDMethods);
   if (m == NULL) {
     return;
   }
+
+  // Set module-global ENCODINGS tuple:
+  PyObject* pyEncs = PyTuple_New(NUM_ENCODINGS);
+  for(int encIDX=0;encIDX<NUM_ENCODINGS;encIDX++) {
+    PyTuple_SET_ITEM(pyEncs, encIDX, PyString_FromString(cld_encoding_info[encIDX].name));
+  }
+  // Steals ref:
+  PyModule_AddObject(m, "ENCODINGS", pyEncs);
+
+  // Set module-global LANGUAGES tuple:
+  PyObject* pyLangs = PyTuple_New(NUM_LANGUAGES);
+  for(int langIDX=0;langIDX<NUM_LANGUAGES;langIDX++) {
+    PyObject* pyLang = Py_BuildValue("(zz)",
+                                     LanguageName((Language) langIDX),
+                                     LanguageCode((Language) langIDX));
+    PyTuple_SET_ITEM(pyLangs, langIDX, pyLang);
+  }
+  // Steals ref:
+  PyModule_AddObject(m, "LANGUAGES", pyLangs);
+
+  // Set module-global EXTERNAL_LANGUAGES tuple:
+  const int numExtLangs = EXT_NUM_LANGUAGES - EXT_LANGUAGE_BASE; // see ext_lang_enc.h
+  PyObject* pyExtLangs = PyTuple_New(numExtLangs);
+  for(int langIDX=EXT_LANGUAGE_BASE;langIDX<EXT_NUM_LANGUAGES;langIDX++) {
+    PyObject* pyLang = Py_BuildValue("(zz)",
+                                     ExtLanguageName((Language) langIDX),
+                                     ExtLanguageCode((Language) langIDX));
+    PyTuple_SET_ITEM(pyExtLangs, langIDX - EXT_LANGUAGE_BASE, pyLang);
+  }
+  // Steals ref:
+  PyModule_AddObject(m, "EXTERNAL_LANGUAGES", pyExtLangs);
   
   CLDError = PyErr_NewException((char *) "cld.error", NULL, NULL);
-  Py_INCREF(CLDError);
+  // Steals ref:
   PyModule_AddObject(m, "error", CLDError);
 }

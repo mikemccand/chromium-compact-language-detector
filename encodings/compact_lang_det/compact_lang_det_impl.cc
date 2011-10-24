@@ -1130,7 +1130,7 @@ static const int kGoodFirstT3MinBytes = 24;         // <this => no first
 // little text like ej1 ej2 ej3 ej4
 // maybe fold this back in earlier
 //
-void RemoveUnreliableLanguages(ToteWithReliability* doc_tote) {
+void RemoveUnreliableLanguages(ToteWithReliability* doc_tote, bool do_remove_weak_matches) {
   // Prepass to merge some low-reliablility languages
   int total_bytes = 0;
   for (int sub = 0; sub < doc_tote->MaxSize(); ++sub) {
@@ -1201,36 +1201,38 @@ void RemoveUnreliableLanguages(ToteWithReliability* doc_tote) {
   }
 
 
-  // Pass to delete any remaining unreliable languages
-  for (int sub = 0; sub < doc_tote->MaxSize(); ++sub) {
-    int plang = doc_tote->Key(sub);
-    if (plang == 0) {continue;}                     // Empty slot
+  if (do_remove_weak_matches) {
+    // Pass to delete any remaining unreliable languages
+    for (int sub = 0; sub < doc_tote->MaxSize(); ++sub) {
+      int plang = doc_tote->Key(sub);
+      if (plang == 0) {continue;}                     // Empty slot
 
-    Language lang = cld::UnpackLanguage(plang);
-    int bytes = doc_tote->Value(sub);
-    int reli = doc_tote->Reliability(sub);
-    if (bytes == 0) {continue;}                     // Zero bytes
+      Language lang = cld::UnpackLanguage(plang);
+      int bytes = doc_tote->Value(sub);
+      int reli = doc_tote->Reliability(sub);
+      if (bytes == 0) {continue;}                     // Zero bytes
 
-    bool is_tier3 = (cld::kIsPackedTop40[plang] == 0);
-    if (is_tier3 &&
-        (bytes < kGoodFirstT3MinBytes) &&
-        (bytes < total_bytes)) {
-      reli = 0;                                     // Too-short tier3
-    }
+      bool is_tier3 = (cld::kIsPackedTop40[plang] == 0);
+      if (is_tier3 &&
+          (bytes < kGoodFirstT3MinBytes) &&
+          (bytes < total_bytes)) {
+        reli = 0;                                     // Too-short tier3
+      }
 
-    // Reliable percent is stored as reliable score over stored bytecount
-    int reliable_percent = reli / bytes;
-    if (reliable_percent >= kMinReliableKeepPercent) {continue;}  // Keeper
+      // Reliable percent is stored as reliable score over stored bytecount
+      int reliable_percent = reli / bytes;
+      if (reliable_percent >= kMinReliableKeepPercent) {continue;}  // Keeper
 
-    // Delete unreliable entry
-    doc_tote->SetKey(sub, 0);
-    doc_tote->SetValue(sub, 0);
-    doc_tote->SetReliability(sub, 0);
+      // Delete unreliable entry
+      doc_tote->SetKey(sub, 0);
+      doc_tote->SetValue(sub, 0);
+      doc_tote->SetReliability(sub, 0);
 
-    // Show fate of unreliable languages if at least 10 bytes
-    if (FLAGS_cld_html /*&& (reliable_percent >= 10)*/ && (bytes >= 10)) {
-      fprintf(stderr, "{Unreli %s.%d(%dB)} ",
-              ExtLanguageCode(lang), reliable_percent, bytes);
+      // Show fate of unreliable languages if at least 10 bytes
+      if (FLAGS_cld_html /*&& (reliable_percent >= 10)*/ && (bytes >= 10)) {
+        fprintf(stderr, "{Unreli %s.%d(%dB)} ",
+                ExtLanguageCode(lang), reliable_percent, bytes);
+      }
     }
   }
 
@@ -2403,12 +2405,11 @@ Language CompactLangDetImpl::DetectLanguageSummaryV25(
 
     // Move bytes for unreliable langs to another lang or
     // UNKNOWN
-    if (do_remove_weak_matches) {
-      RemoveUnreliableLanguages(&doc_tote);
-    }
+    RemoveUnreliableLanguages(&doc_tote, do_remove_weak_matches);
 
     // Redo the result extraction after the removal above
     doc_tote.Sort(3);
+
     ExtractLangEtc(&doc_tote, total_text_bytes,
                    reliable_percent3, language3, percent3, normalized_score3,
                    text_bytes, is_reliable);

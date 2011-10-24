@@ -25,7 +25,8 @@ for line in f.readlines():
   if answer not in byLang:
     byLang[answer] = {}
   bytes += len(text)
-  name, code, reliable, numBytes, details = cld.detect(text, isPlainText=True, removeWeakLanguages=False, pickSummaryLanguage=False)
+  #name, code, reliable, numBytes, details = cld.detect(text, isPlainText=True, removeWeakLanguages=False, pickSummaryLanguage=False)
+  name, code, reliable, numBytes, details = cld.detect(text, isPlainText=True, removeWeakLanguages=False, pickSummaryLanguage=False, includeExtendedLanguages=False)
   byLang[answer][code] = 1 + byLang[answer].get(code, 0)
   if code != answer:
     #print 'WRONG: %d: %s (%s) vs %s [reliable=%s numBytes=%s details=%s]' % (count, code, name, answer, reliable, numBytes, details)

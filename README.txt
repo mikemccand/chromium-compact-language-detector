@@ -78,11 +78,11 @@ The detect method takes optional params:
     http://www.krasnahora.cz, pass the string 'cz').  This gives a
     hint that can bias the detector somewhat.
 
-  * hintLanguage (default is None): set to the possible language.  For
-    example, if the web-server declared the language, or the content
-    itself embedded an http-equiv meta tag declaring the language,
-    pass this (for example, "ITALIAN").  This gives a hint that can
-    bias the detector somewhat.
+  * hintLanguageCode (default is None): set to the possible language.
+    For example, if the web-server declared the language, or the
+    content itself embedded an http-equiv meta tag declaring the
+    language, pass this (for example, "it" for Italian).  This gives a
+    hint that can bias the detector somewhat.
 
   * hintEncoding (default is None): set to the original encoding of
     the content (note you still must pass UTF-8 encoded bytes).  This
@@ -101,3 +101,15 @@ The detect method takes optional params:
     enough, delete it.  This ensures some amount of confidence when a
     language is returned.
 
+
+The module exports these global constants:
+
+  * cld.ENCODINGS: list of the encoding names CLD recognizes (if you
+    provide hintEncoding, it must be one of these names).
+
+  * cld.LANGUAGES: list of languages and their codes (if you provide
+    hintLanguageCode, it must be one of the codes from these codes).
+
+  * cld.EXTERNAL_LANGUAGES: list of external languages and their
+    codes.  Note that external languages cannot be hinted, but may be
+    matched if you pass includeExtendedLanguages=True (the default).
