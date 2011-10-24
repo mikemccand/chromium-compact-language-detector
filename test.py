@@ -16,7 +16,7 @@ class TestCLD(unittest.TestCase):
 
   langsSeen = set()
 
-  def runOne(self, expectedLangName, s):
+  def runOne(self, expectedLangName, s, shouldBeReliable=True):
     if VERBOSE:
       print
       print 'Test: %s [%d bytes]' % (expectedLangName, len(s))
@@ -29,7 +29,7 @@ class TestCLD(unittest.TestCase):
       self.langsSeen.add(expectedLangName)
       print '  %d langs' % len(self.langsSeen)
     self.assertEquals(expectedLangName, detectedLangName)
-    self.assertTrue(isReliable)
+    self.assertTrue(not shouldBeReliable or isReliable)
 
   def testAFRIKAANS(self):
     self.runOne('AFRIKAANS', kTeststr_af_Latn)
@@ -40,9 +40,6 @@ class TestCLD(unittest.TestCase):
   # def testABKHAZIAN(self):
   #   self.runOne('ABKHAZIAN', kTeststr_ab_Cyrl)
   
-  def testAFRIKAANS(self):
-    self.runOne('AFRIKAANS', kTeststr_af_Latn)
-    
   # def testAMHARIC(self):
   #   self.runOne('AMHARIC', kTeststr_am_Ethi)
   
@@ -60,7 +57,7 @@ class TestCLD(unittest.TestCase):
   #   self.runOne('AZERBAIJANI', kTeststr_az_Arab)
   
   # Missing data: az-Cyrl
-  # def testAZERBAIJANI(self):
+  # def testAZERBAIJANI2(self):
   #   self.runOne('AZERBAIJANI', kTeststr_az_Latn)
   
   # def testBASHKIR(self):
@@ -78,8 +75,8 @@ class TestCLD(unittest.TestCase):
   # def testBISLAMA(self):
   #   self.runOne('BISLAMA', kTeststr_bi_Latn)
   
-  # def testBENGALI(self):
-  #   self.runOne('BENGALI', kTeststr_bn_Beng)
+  def testBENGALI(self):
+    self.runOne('BENGALI', kTeststr_bn_Beng)
   
   # def testTIBETAN(self):
   #   self.runOne('TIBETAN', kTeststr_bo_Tibt)
@@ -130,7 +127,7 @@ class TestCLD(unittest.TestCase):
   def testENGLISH(self):
     self.runOne('ENGLISH', kTeststr_en_Latn)
     
-  def testENGLISH(self):
+  def testENGLISH2(self):
     self.runOne('ENGLISH', kTeststr_en)
 
   # def testESPERANTO(self):
@@ -190,8 +187,8 @@ class TestCLD(unittest.TestCase):
   def testHINDI2(self):
     self.runOne('HINDI', kTeststr_ks)
     
-  def testCROATIAN(self):
-    self.runOne('CROATIAN', kTeststr_hr_Latn)     # NOTE: now CROATIAN
+  def testCROATIAN2(self):
+    self.runOne('CROATIAN', kTeststr_hr_Latn, shouldBeReliable=False)     # NOTE: now CROATIAN
     
   # def testHAITIAN_CREOLE(self):
   #   self.runOne('HAITIAN_CREOLE', kTeststr_ht_Latn)
@@ -241,10 +238,10 @@ class TestCLD(unittest.TestCase):
   # def testKAZAKH(self):
   #   self.runOne('KAZAKH', kTeststr_kk_Arab)
   
-  # def testKAZAKH(self):
+  # def testKAZAKH2(self):
   #   self.runOne('KAZAKH', kTeststr_kk_Cyrl)
   
-  # def testKAZAKH(self):
+  # def testKAZAKH3(self):
   #   self.runOne('KAZAKH', kTeststr_kk_Latn)
   
   # def testGREENLANDIC(self):
@@ -266,16 +263,15 @@ class TestCLD(unittest.TestCase):
   # def testKURDISH(self):
   #   self.runOne('KURDISH', kTeststr_ku_Arab)
   
-  # def testKURDISH(self):
+  # def testKURDISH2(self):
   #   self.runOne('KURDISH', kTeststr_ku_Latn)
   
   # def testKYRGYZ(self):
   #   self.runOne('KYRGYZ', kTeststr_ky_Arab)
   
-  # def testKYRGYZ(self):
+  # def testKYRGYZ2(self):
   #   self.runOne('KYRGYZ', kTeststr_ky_Cyrl)
   
-
   # def testLATIN(self):
   #   self.runOne('LATIN', kTeststr_la_Latn)
   
@@ -318,13 +314,13 @@ class TestCLD(unittest.TestCase):
   # def testMARATHI(self):
   #   self.runOne('MARATHI', kTeststr_mr_Deva)
   
-  def testMALAY(self):
+  def testMALAY2(self):
     self.runOne('MALAY', kTeststr_ms_Latn)
     
-  # def testMALAY(self):
+  # def testMALAY3(self):
   #   self.runOne('MALAY', kTeststr_ms_Latn2)
   
-  def testMALAY(self):
+  def testMALAY4(self):
     self.runOne('MALAY', kTeststr_ms_Latn3)
     
   # def testMALTESE(self):
@@ -333,7 +329,7 @@ class TestCLD(unittest.TestCase):
   # def testBURMESE(self):
   #   self.runOne('BURMESE', kTeststr_my_Latn)
   
-  # def testBURMESE(self):
+  # def testBURMESE2(self):
   #   self.runOne('BURMESE', kTeststr_my_Mymr)
 
   # def testNAURU(self):
@@ -351,7 +347,6 @@ class TestCLD(unittest.TestCase):
   def testNORWEGIAN(self):
     self.runOne('NORWEGIAN', kTeststr_no_Latn)
     
-
   # def testOCCITAN(self):
   #   self.runOne('OCCITAN', kTeststr_oc_Latn)
   
@@ -373,7 +368,6 @@ class TestCLD(unittest.TestCase):
   def testPORTUGUESE(self):
     self.runOne('PORTUGUESE', kTeststr_pt_BR)     # NOTE: not PORTUGUESE_B
                                                   # nor PORTUGUESE_P
-
   # def testQUECHUA(self):
   #   self.runOne('QUECHUA', kTeststr_qu_Latn)
   
@@ -395,7 +389,7 @@ class TestCLD(unittest.TestCase):
   # def testSANSKRIT(self):
   #   self.runOne('SANSKRIT', kTeststr_sa_Deva)
   
-  # def testSANSKRIT(self):
+  # def testSANSKRIT2(self):
   #   self.runOne('SANSKRIT', kTeststr_sa_Latn)
   
   # def testSCOTS(self):
@@ -432,13 +426,13 @@ class TestCLD(unittest.TestCase):
   # def testALBANIAN(self):
   #   self.runOne('ALBANIAN', kTeststr_sq_Latn)
   
-  def testSERBIAN(self):
+  def testSERBIAN2(self):
     self.runOne('SERBIAN', kTeststr_sr_Cyrl)    # NOTE: now SERBIAN
     
-  def testCROATIAN(self):
+  def testCROATIAN3(self):
     self.runOne('CROATIAN', kTeststr_sr_Latn)   # NOTE: Not SERBIAN
     
-  def testCROATIAN(self):
+  def testCROATIAN4(self):
     self.runOne('CROATIAN', kTeststr_sr_ME_Latn)  # NOTE: not SERBIAN nor MONTENEGRIN
     
   # def testSISWANT(self):
@@ -469,7 +463,7 @@ class TestCLD(unittest.TestCase):
   # def testTAJIK(self):
   #   self.runOne('TAJIK', kTeststr_tg_Arab)
   
-  # def testTAJIK(self):
+  # def testTAJIK2(self):
   #   self.runOne('TAJIK', kTeststr_tg_Cyrl)
   
   def testTHAI(self):
@@ -481,7 +475,7 @@ class TestCLD(unittest.TestCase):
   # def testTURKMEN(self):
   #   self.runOne('TURKMEN', kTeststr_tk_Cyrl)
   
-  # def testTURKMEN(self):
+  # def testTURKMEN2(self):
   #   self.runOne('TURKMEN', kTeststr_tk_Latn)
   
   def testTAGALOG(self):
@@ -502,7 +496,7 @@ class TestCLD(unittest.TestCase):
   # def testTATAR(self):
   #   self.runOne('TATAR', kTeststr_tt_Cyrl)
   
-  # def testTATAR(self):
+  # def testTATAR2(self):
   #   self.runOne('TATAR', kTeststr_tt_Latn)
   
   # def testTWI(self):
@@ -511,10 +505,10 @@ class TestCLD(unittest.TestCase):
   # def testUIGHUR(self):
   #   self.runOne('UIGHUR', kTeststr_ug_Arab)
   
-  # def testUIGHUR(self):
+  # def testUIGHUR2(self):
   #   self.runOne('UIGHUR', kTeststr_ug_Cyrl)
   
-  # def testUIGHUR(self):
+  # def testUIGHUR3(self):
   #   self.runOne('UIGHUR', kTeststr_ug_Latn)
   
   def testUKRAINIAN(self):
@@ -526,10 +520,10 @@ class TestCLD(unittest.TestCase):
   # def testUZBEK(self):
   #   self.runOne('UZBEK', kTeststr_uz_Arab)
   
-  # def testUZBEK(self):
+  # def testUZBEK2(self):
   #   self.runOne('UZBEK', kTeststr_uz_Cyrl)
   
-  # def testUZBEK(self):
+  # def testUZBEK3(self):
   #   self.runOne('UZBEK', kTeststr_uz_Latn)
   
   def testVIETNAMESE(self):
@@ -554,7 +548,7 @@ class TestCLD(unittest.TestCase):
   # def testZHUANG(self):
   #   self.runOne('ZHUANG', kTeststr_za_Hani)
   
-  # def testZHUANG(self):
+  # def testZHUANG2(self):
   #   self.runOne('ZHUANG', kTeststr_za_Latn)
   
   def testCHINESE(self):
