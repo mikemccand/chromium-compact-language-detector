@@ -113,3 +113,8 @@ The module exports these global constants:
   * cld.EXTERNAL_LANGUAGES: list of external languages and their
     codes.  Note that external languages cannot be hinted, but may be
     matched if you pass includeExtendedLanguages=True (the default).
+
+  * cld.DETECTED_LANGUAGES: list of all detectable languages, as best
+    I can determine (this was reverse engineered from a unit test, ie
+    it contains a language X if that language was tested and passes
+    for at least one example text).
