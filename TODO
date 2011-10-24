@@ -19,3 +19,4 @@ remove dead files
 memory leak...?
 
 return list of all detectable langs
+  - hmm should be lang + script?
