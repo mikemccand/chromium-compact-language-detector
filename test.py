@@ -178,8 +178,11 @@ class TestCLD(unittest.TestCase):
   # def testSCOTS_GAELIC(self):
   #   self.runOne('SCOTS_GAELIC', kTeststr_gd_Latn)
   
-  #def testGALICIAN(self):
-  #  self.runOne('GALICIAN', kTeststr_gl_Latn)
+  # def testGALICIAN(self):
+  #   self.runOne('GALICIAN', kTeststr_gl_Latn)
+
+  def testGALICIAN2(self):
+    self.runOne('GALICIAN', kTeststr_gl_Latn2)
   
   # def testGUARANI(self):
   #   self.runOne('GUARANI', kTeststr_gn_Latn)

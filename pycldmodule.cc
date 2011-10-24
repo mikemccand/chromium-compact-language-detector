@@ -208,6 +208,7 @@ initcld() {
   PyTuple_SET_ITEM(pyDetLangs, 21, PyString_FromString("ESTONIAN"));
   PyTuple_SET_ITEM(pyDetLangs, 22, PyString_FromString("FINNISH"));
   PyTuple_SET_ITEM(pyDetLangs, 23, PyString_FromString("FRENCH"));
+  PyTuple_SET_ITEM(pyDetLangs, 23, PyString_FromString("GALICIAN"));
   PyTuple_SET_ITEM(pyDetLangs, 24, PyString_FromString("GEORGIAN"));
   PyTuple_SET_ITEM(pyDetLangs, 25, PyString_FromString("GERMAN"));
   PyTuple_SET_ITEM(pyDetLangs, 26, PyString_FromString("GREEK"));
