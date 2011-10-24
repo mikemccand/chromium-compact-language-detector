@@ -40,8 +40,8 @@ class TestCLD(unittest.TestCase):
   # def testABKHAZIAN(self):
   #   self.runOne('ABKHAZIAN', kTeststr_ab_Cyrl)
   
-  # def testAMHARIC(self):
-  #   self.runOne('AMHARIC', kTeststr_am_Ethi)
+  def testAMHARIC(self):
+    self.runOne('AMHARIC', kTeststr_am_Ethi)
   
   def testARABIC(self):
     self.runOne('ARABIC', kTeststr_ar_Arab)
@@ -78,8 +78,8 @@ class TestCLD(unittest.TestCase):
   def testBENGALI(self):
     self.runOne('BENGALI', kTeststr_bn_Beng)
   
-  # def testTIBETAN(self):
-  #   self.runOne('TIBETAN', kTeststr_bo_Tibt)
+  def testTIBETAN(self):
+    self.runOne('TIBETAN', kTeststr_bo_Tibt)
   
   # def testBRETON(self):
   #   self.runOne('BRETON', kTeststr_br_Latn)
@@ -317,8 +317,8 @@ class TestCLD(unittest.TestCase):
   def testMALAY2(self):
     self.runOne('MALAY', kTeststr_ms_Latn)
     
-  # def testMALAY3(self):
-  #   self.runOne('MALAY', kTeststr_ms_Latn2)
+  def testMALAY3(self):
+    self.runOne('MALAY', kTeststr_ms_Latn2)
   
   def testMALAY4(self):
     self.runOne('MALAY', kTeststr_ms_Latn3)
@@ -329,8 +329,8 @@ class TestCLD(unittest.TestCase):
   # def testBURMESE(self):
   #   self.runOne('BURMESE', kTeststr_my_Latn)
   
-  # def testBURMESE2(self):
-  #   self.runOne('BURMESE', kTeststr_my_Mymr)
+  def testBURMESE2(self):
+    self.runOne('BURMESE', kTeststr_my_Mymr)
 
   # def testNAURU(self):
   #   self.runOne('NAURU', kTeststr_na_Latn)
@@ -545,11 +545,11 @@ class TestCLD(unittest.TestCase):
   #   self.runOne('YORUBA', kTeststr_yo_Latn)
 
   # Zhuang Hani removed 2008.05.13. Just Zhuang Latn left
-  #def testZHUANG(self):
-  #  self.runOne('ZHUANG', kTeststr_za_Hani)
+  # def testZHUANG(self):
+  #   self.runOne('ZHUANG', kTeststr_za_Hani)
   
-  #def testZHUANG2(self):
-  #  self.runOne('ZHUANG', kTeststr_za_Latn)
+  # def testZHUANG2(self):
+  #   self.runOne('ZHUANG', kTeststr_za_Latn)
   
   def testCHINESE(self):
     self.runOne('Chinese', kTeststr_zh_Hani)
