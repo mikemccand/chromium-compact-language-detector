@@ -18,5 +18,7 @@ remove dead files
 
 memory leak...?
 
+am i sure no unicode normalization was done...?  what about NFC normalization for the UChar* API (in cld_unicodetext.cc)?
+
 return list of all detectable langs
   - hmm should be lang + script?
