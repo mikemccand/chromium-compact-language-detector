@@ -4,8 +4,6 @@
 
 #include <Python.h>
 
-#define CLD_WINDOWS
-
 #include "encodings/compact_lang_det/compact_lang_det.h"
 #include "encodings/compact_lang_det/ext_lang_enc.h"
 #include "base/string_util.h"
