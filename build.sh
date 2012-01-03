@@ -5,6 +5,10 @@ LDFLAGS=-L.
 CC=g++
 AR=ar
 
+if [ "$(uname -s)" = "NetBSD" ]; then
+    LDFLAGS="$LDFLAGS -lgcc_s"
+fi
+
 rm -f *.o
 rm -f libcld.a
 
@@ -40,7 +44,7 @@ $AR rcs libcld.a *.o
 
 echo
 echo "Compile example.cc"
-$CC -DCLD_WINDOWS -I. -L. -o example example.cc -lcld -lstdc++
+$CC -DCLD_WINDOWS -I. $LDFLAGS -o example example.cc -lcld -lstdc++
 
 echo
 echo "Done!"
