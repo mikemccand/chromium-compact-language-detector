@@ -35,6 +35,9 @@
 #elif defined(__OpenBSD__)
 #define OS_OPENBSD 1
 #define TOOLKIT_GTK
+#elif defined(__DragonFly__)
+#define OS_DRAGONFLY 1
+#define TOOLKIT_GTK
 #elif defined(__sun)
 #define OS_SOLARIS 1
 #define TOOLKIT_GTK
@@ -48,14 +51,14 @@
 #define TOOLKIT_USES_GTK 1
 #endif
 
-#if defined(OS_LINUX) || defined(OS_FREEBSD) || defined(OS_OPENBSD) || defined(OS_NETBSD)
+#if defined(OS_LINUX) || defined(OS_FREEBSD) || defined(OS_OPENBSD) || defined(OS_NETBSD) || defined(OS_DRAGONLY)
 #define USE_NSS 1  // Use NSS for crypto.
 #define USE_X11 1  // Use X for graphics.
 #endif
 
 // For access to standard POSIXish features, use OS_POSIX instead of a
 // more specific macro.
-#if defined(OS_MACOSX) || defined(OS_LINUX) || defined(OS_FREEBSD) || defined(OS_OPENBSD) || defined(OS_NETBSD) || defined(OS_SOLARIS)
+#if defined(OS_MACOSX) || defined(OS_LINUX) || defined(OS_FREEBSD) || defined(OS_OPENBSD) || defined(OS_NETBSD) || defined(OS_SOLARIS) || defined(OS_DRAGONLY)
 #define OS_POSIX 1
 // Use base::DataPack for name/value pairs.
 #define USE_BASE_DATA_PACK 1
@@ -92,6 +95,9 @@
 #define ARCH_CPU_ARMEL 1
 #define ARCH_CPU_32_BITS 1
 #define WCHAR_T_IS_UNSIGNED 1
+#elif defined(__ARCH_PPC) || defined(__ppc__)
+#define ARCH_CPU_PPC_FAMILY 1
+#define ARCH_CPU_32_BITS 1
 #else
 #error Please add support for your architecture in build/build_config.h
 #endif
