@@ -1,0 +1,4 @@
+include *.py *.cc *.h
+recursive-include encodings *.cc *.h
+recursive-include base *.cc *.h
+recursive-include languages *.cc *.h 
