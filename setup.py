@@ -34,7 +34,7 @@ module = Extension('cld',
                    define_macros = defines,
                    sources=['pycldmodule.cc'] + CLD_SOURCES)
 
-setup(name='cld',
+setup(name='chromium_compact_language_detector',
       version='0.031415',
       url='http://code.google.com/p/chromium-compact-language-detector',
       author='Michael McCandless',
