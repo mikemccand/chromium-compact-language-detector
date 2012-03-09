@@ -36,5 +36,18 @@ module = Extension('cld',
 
 setup(name='cld',
       version='0.031415',
+      url='http://code.google.com/p/chromium-compact-language-detector',
+      author='Michael McCandless',
+      author_email='mail@mikemccandless.com',
       description='Python bindings around Google Chromium\'s embedded compact language detection library',
-      ext_modules = [module])
+      ext_modules = [module],
+      classifiers = [
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX :: Linux',
+        'Programming Language :: C++',
+        'Programming Language :: Python',
+        'Development Status :: 4 - Beta',
+        ]
+      )
