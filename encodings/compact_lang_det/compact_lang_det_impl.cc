@@ -1742,7 +1742,7 @@ static const char kIsDigit[256] = {
 void MakeChar4(const char* str, char* norm) {
   memcpy(norm, "____", 4);     // four underscores
   int l_ptr = 0;
-  for (int i = 0; i < strlen(str); ++i) {
+  for (unsigned int i = 0; i < strlen(str); ++i) {
     uint8 uc = static_cast<uint8>(str[i]);
     if (kIsAlpha[uc] | kIsDigit[uc]) {
       if (l_ptr < 4) {                  // Else ignore
