@@ -1,0 +1,24 @@
+build/.*
+
+# Files for vim users.
+\..*\.swp
+.*\.vim$
+
+# Various files relative to usage of autotools.
+autom4te.cache/.*
+\.deps/
+^Makefile$
+^Makefile.in$
+^configure$
+^libtool$
+^install-sh$
+^missing$
+^depcomp$
+^ltmain\.sh$
+^config\..*
+^aclocal\.m4$
+\.dirstamp$
+
+# Compilation files.
+.*\.o$
+.*\.lo$

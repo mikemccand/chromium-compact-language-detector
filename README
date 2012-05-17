@@ -50,7 +50,7 @@ Your ideas will go further if you don't insist on going with them!
 USING THE PYTHON LIBRARY
 
 Once you've compiled & installed the Python bindings (see
-INSTALL.txt), detection is easy.
+INSTALL), detection is easy.
 
 First, you must get your content (plain text or HTML) encoded into
 UTF8 bytes.  Then, detect like this:
