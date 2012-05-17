@@ -1,6 +1,6 @@
 AC_INIT([libcld], [0.1], [lucene@mikemccandless.com], [compact-language-detector], [http://code.google.com/p/chromium-compact-language-detector/])
 AC_PREREQ([2.67])
-AM_INIT_AUTOMAKE([1.11 -Wall no-define])
+AM_INIT_AUTOMAKE([1.11 -Wall no-define tar-ustar])
 
 # No config header needed.
 #AC_CONFIG_HEADERS([config.h])

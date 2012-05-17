@@ -46,10 +46,40 @@ public_includedir = $(includedir)/cld/
 public_include_HEADERS = encodings/compact_lang_det/compact_lang_det.h \
     encodings/lang_enc.h
 
-pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = cld.pc
+## Distribution files which won't be installed ##
+
+dist_noinst_HEADERS = encodings/compact_lang_det/cldutil.h \
+    encodings/compact_lang_det/ext_lang_enc.h \
+    encodings/compact_lang_det/letterscript_enum.h \
+    encodings/compact_lang_det/tote.h \
+    encodings/compact_lang_det/win/cld_commandlineflags.h \
+    encodings/compact_lang_det/cldutil_dbg.h \
+    encodings/compact_lang_det/generated/compact_lang_det_generated_meanscore.h \
+    encodings/compact_lang_det/utf8propletterscriptnum.h \
+    encodings/compact_lang_det/win/cld_logging.h \
+    encodings/compact_lang_det/win/cld_unilib.h \
+    encodings/compact_lang_det/win/cld_utf.h \
+    encodings/compact_lang_det/compact_lang_det_impl.h \
+    encodings/compact_lang_det/getonescriptspan.h \
+    encodings/compact_lang_det/utf8propjustletter.h \
+    encodings/compact_lang_det/utf8scannotjustletterspecial.h \
+    encodings/compact_lang_det/win/cld_google.h \
+    encodings/compact_lang_det/win/cld_macros.h \
+    base/macros.h \
+    base/type_traits.h \
+    base/template_util.h \
+    encodings/compact_lang_det/win/cld_strtoint.h \
+    encodings/compact_lang_det/win/cld_htmlutils.h \
+    encodings/compact_lang_det/win/cld_utf8utils.h \
+    base/string_util.h \
+    encodings/compact_lang_det/unittest_data.h
 
 dist_noinst_SCRIPTS = autogen.sh
+
+## pkg-config ##
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = cld.pc
 
 # For testing the library.
 check_PROGRAMS = basic_test
