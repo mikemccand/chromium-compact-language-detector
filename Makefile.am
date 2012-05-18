@@ -74,7 +74,8 @@ dist_noinst_HEADERS = encodings/compact_lang_det/cldutil.h \
     base/string_util.h \
     encodings/compact_lang_det/unittest_data.h
 
-dist_noinst_SCRIPTS = autogen.sh
+# autogen.sh and cleanrepo.sh are script for maintainance use. Not for distribution.
+# dist_noinst_SCRIPTS = autogen.sh
 
 ## pkg-config ##
 
