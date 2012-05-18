@@ -91,3 +91,23 @@ basic_test_LDFLAGS = -lcld -lstdc++
 
 TESTS = basic_test
 
+## Targets for python wrapper ##
+
+noinst_PYTHON = setup.py
+
+# ${PYTHON_EXEC_PREFIX} defaults to ${exec_prefix}
+
+if HAVE_PYTHON
+all-python:
+	${PYTHON} setup.py build
+	
+install-python:
+	${PYTHON} setup.py install --prefix="$(PYTHON_EXEC_PREFIX)"
+
+else !HAVE_PYTHON
+all-python:
+	@echo "Python is not installed."
+
+install-python: all-python
+
+endif

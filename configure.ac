@@ -2,6 +2,12 @@ AC_INIT([libcld], [0.1], [lucene@mikemccandless.com], [compact-language-detector
 AC_PREREQ([2.67])
 AM_INIT_AUTOMAKE([1.11 -Wall no-define tar-ustar])
 
+## For the Python Wrapper ##
+AM_PATH_PYTHON([2.6],, [:])
+# Installation won't be aborted if python is not found.
+# In this case PYTHON variable will have value ":"
+AM_CONDITIONAL([HAVE_PYTHON], [test "$PYTHON" != :])
+
 # No config header needed.
 #AC_CONFIG_HEADERS([config.h])
 
