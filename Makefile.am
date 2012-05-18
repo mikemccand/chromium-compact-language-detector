@@ -93,7 +93,9 @@ TESTS = basic_test
 
 ## Targets for python wrapper ##
 
-noinst_PYTHON = setup.py
+noinst_PYTHON = setup.py \
+    pycldmodule.cc \
+    cld_encodings.h
 
 # ${PYTHON_EXEC_PREFIX} defaults to ${exec_prefix}
 
