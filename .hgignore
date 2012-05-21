@@ -6,9 +6,9 @@
 
 # Various files relative to usage of autotools.
 autom4te.cache/.*
-^\.deps/
-^Makefile$
-^Makefile.in$
+\.deps/
+Makefile$
+Makefile.in$
 ^configure$
 ^libtool$
 ^install-sh$
@@ -32,3 +32,4 @@ autom4te.cache/.*
 
 # Python compiled files.
 .*\.pyc$
+py-compile
