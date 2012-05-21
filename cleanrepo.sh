@@ -11,3 +11,9 @@ rm -fr autom4te.cache/
 
 # The next line removes the archive created by `make dist`.
 rm -f compact-language-detector-*.tar.gz
+
+cd bindings/python/
+if [ -f Makefile ]; then
+    make maintainer-clean
+fi
+rm -f aclocal.m4 config.guess config.sub configure depcomp install-sh ltmain.sh Makefile.in missing py-compile
