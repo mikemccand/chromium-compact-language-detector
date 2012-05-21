@@ -35,6 +35,7 @@ nobase_cld_include_HEADERS = encodings/compact_lang_det/win/cld_utf8statetable.h
     base/basictypes.h \
     base/port.h \
     base/build_config.h \
+    base/string_util.h \
     languages/proto/languages.pb.h \
     languages/public/languages.h \
     encodings/proto/encodings.pb.h \
@@ -72,7 +73,6 @@ dist_noinst_HEADERS = encodings/compact_lang_det/cldutil.h \
     encodings/compact_lang_det/win/cld_strtoint.h \
     encodings/compact_lang_det/win/cld_htmlutils.h \
     encodings/compact_lang_det/win/cld_utf8utils.h \
-    base/string_util.h \
     encodings/compact_lang_det/unittest_data.h
 
 

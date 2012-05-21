@@ -1,11 +1,11 @@
 // Copyright (c) 2011 Michael McCandless. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// found in the COPYING file.
 
 #include <Python.h>
 
-#include "encodings/compact_lang_det/compact_lang_det.h"
-#include "encodings/compact_lang_det/ext_lang_enc.h"
+#include "compact_lang_det.h"
+#include "ext_lang_enc.h"
 #include "base/string_util.h"
 #include "cld_encodings.h"
 

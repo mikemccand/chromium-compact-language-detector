@@ -1,0 +1,5 @@
+- Michael McCandless <lucene at mikemccandless.com>
+    Maintainer.
+
+- Jehan <jehan at mygengo.com>
+    Packaging (Makefile, pkg-config, libtool).
