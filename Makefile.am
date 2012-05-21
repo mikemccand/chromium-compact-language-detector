@@ -38,19 +38,20 @@ nobase_cld_include_HEADERS = encodings/compact_lang_det/win/cld_utf8statetable.h
     languages/proto/languages.pb.h \
     languages/public/languages.h \
     encodings/proto/encodings.pb.h \
-    encodings/public/encodings.h
+    encodings/public/encodings.h \
+    encodings/compact_lang_det/letterscript_enum.h
+
 # For simplicity, these are the 2 only files that people should be including in their source, this way:
 # #include "cld/compact_lang_det.h"
 # #include "cld/lang_enc.h"
 public_includedir = $(includedir)/cld/
 public_include_HEADERS = encodings/compact_lang_det/compact_lang_det.h \
-    encodings/lang_enc.h
+    encodings/lang_enc.h \
+    encodings/compact_lang_det/ext_lang_enc.h
 
 ## Distribution files which won't be installed ##
 
 dist_noinst_HEADERS = encodings/compact_lang_det/cldutil.h \
-    encodings/compact_lang_det/ext_lang_enc.h \
-    encodings/compact_lang_det/letterscript_enum.h \
     encodings/compact_lang_det/tote.h \
     encodings/compact_lang_det/win/cld_commandlineflags.h \
     encodings/compact_lang_det/cldutil_dbg.h \
