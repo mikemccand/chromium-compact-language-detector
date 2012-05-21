@@ -27,7 +27,7 @@ Makefile.in$
 .*\.lo$
 .*\.Plo$
 \.libs/*
-^libcld.la$
+libcld.la$
 ^basic_test$
 
 # Python compiled files.

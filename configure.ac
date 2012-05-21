@@ -21,5 +21,5 @@ AC_SUBST([CLD_LT_VERSION], [0:0:0])
 # Public version number.
 AC_SUBST([CLD_API_VERSION], [0.1])
 
-AC_CONFIG_FILES([Makefile cld.pc:cld.pc.in])
+AC_CONFIG_FILES([Makefile src/Makefile cld.pc:cld.pc.in])
 AC_OUTPUT
