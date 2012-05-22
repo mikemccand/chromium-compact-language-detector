@@ -41,5 +41,11 @@ TODO: make pkg-rpm, pkg-ebuild, API doc.
 Release Process
 ---------------
 
-Simply run: `make release`, then test the .deb by installing them and trying them.
+$ ./cleanrepo.sh
+$ ./autogen.sh
+$ ./configure
+$ make release
+
+You'll find under release/ a .tar.gz for manual installation and 2 .deb for Debian/Ubuntu inclusion.
+Test the .deb in particular by installing them and trying them.
 
