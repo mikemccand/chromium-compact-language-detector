@@ -35,4 +35,5 @@ libcld.la$
 py-compile
 
 # Release files.
-^release/*
+^release/.*\.deb$
+^release/.*\.tar\.gz$

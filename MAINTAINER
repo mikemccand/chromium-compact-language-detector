@@ -1,0 +1,45 @@
+NOTE: This file is a maintainer file and should not be included in the distribution. In other words, it must not appear anywhere in the
+Makefile.am.
+
+C++ library versionning
+=======================
+
+Public API version
+------------------
+
+When the versionning changes, modify the following lines in the file `configure.ac`:
+AC_INIT([libcld], [0.1], [lucene@mikemccandless.com], [compact-language-detector], [http://code.google.com/p/chromium-compact-language-detector/])
+AC_SUBST([CLD_API_VERSION], [0.1])
+
+Libtool version
+---------------
+
+Libtool has a particular versionning, not meant for human usage, but for automatic library management in the system.
+You must change the version at every public release of the library where anything changed in the source code, even when this is only a
+revision change with only minor cosmetic changes, and no real usage effects. But update only for a release.
+Hence libtool and public version are not meant to be following each other at all and are fully independent.
+
+For details: http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
+
+Line to modify in `configure.ac`:
+AC_SUBST([CLD_LT_VERSION], [0:0:0])
+
+Makefile Targets
+================
+
+- make dist: generates compact-language-detector-0.1.tar.gz (0.1 will be replaced public version you set earlier).
+
+- make distcheck: same as make dist but will try a fake distribution installation in a temporary folder to verify that nothing will be
+  installed.
+
+- make pkg-deb: creates a library (only dynamic) package and a -dev (with headers) packages under release/.
+
+- make release: implies both distcheck and pkg-deb and move everything under release/ (you will hence find there 2 .deb and 1 .tar.gz).
+
+TODO: make pkg-rpm, pkg-ebuild, API doc.
+
+Release Process
+---------------
+
+Simply run: `make release`, then test the .deb by installing them and trying them.
+
