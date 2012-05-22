@@ -12,6 +12,7 @@ module = Extension('cld',
                    include_dirs=['.'],
                    library_dirs=['.'],
                    define_macros = defines,
+                   libraries = ['cld'],
                    sources=['src/pycldmodule.cc'])
 
 setup(name='chromium_compact_language_detector',
