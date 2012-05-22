@@ -17,3 +17,4 @@ if [ -f Makefile ]; then
     make maintainer-clean
 fi
 rm -f aclocal.m4 config.guess config.sub configure depcomp install-sh ltmain.sh Makefile.in missing py-compile
+rm -fr build/

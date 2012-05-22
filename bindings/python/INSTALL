@@ -363,3 +363,13 @@ operates.
 `configure' also accepts some other, not widely useful, options.  Run
 `configure --help' for more details.
 
+NOTE
+====
+
+Underneath the Makefile is simply a typical setup.py.
+You can access it directly to have more power over build and installation. But for most people and use case,
+typical is ok:
+
+$ ./configure [optionally --prefix=/some/prefix/]
+$ make
+$ make install

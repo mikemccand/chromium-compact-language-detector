@@ -1,7 +1,3 @@
-makefile
-
-dynamic lib
-
 test on py 3.x
 
 build py extension on windows
@@ -22,3 +18,27 @@ am i sure no unicode normalization was done...?  what about NFC normalization fo
 
 return list of all detectable langs
   - hmm should be lang + script?
+
+Jehan's TODO list
+=================
+
+- API man files for both C++ and Python.
+- simple "one file" C++ include.
+- Check last commits upstream that have not been included yet and merge if needed.
+
+- Make better C++ check test (Note: Google original code has some unit test files. Probably they can be adapted).
+- Include the python tests into bindings/python `make check`.
+- Add build/ and other generated files into cleaned out files by bindings/python `make clean`.
+
+- Make a static deb package?
+- Make .rpm and .ebuild packages?
+- Do we want to have binary packaged for the python binding? Or rather pip packages only?
+
+- Improve release/debian/* for upstream inclusion of deb packages.
+
+- [if time] Read the whole code, clean it, improve if needed.
+- [if time] Try to understand how the detection data is generated and check if we cannot make a tool to generate additional data to improve
+  detection (using Free text data, for instance on Wikipedia, etc.).
+
+- cld needs UTF-8 input. Would be nice to have a good encoding detection library to go with it (for conversion, iconv exists, but it does
+  not detect as far as I know).
