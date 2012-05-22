@@ -33,3 +33,6 @@ libcld.la$
 # Python compiled files.
 .*\.pyc$
 py-compile
+
+# Release files.
+^release/*

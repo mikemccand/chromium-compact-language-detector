@@ -17,3 +17,23 @@ basic_test_LDFLAGS = -lcld -Lsrc/ -lstdc++
 
 TESTS = basic_test
 
+##################
+## RELEASE CODE ##
+##################
+
+# Packaging a .deb
+
+pkg-deb: dist
+	rm -fr temp_deb/
+	mkdir -p temp_deb/
+	tar -xzf "$(PACKAGE)-$(VERSION).tar.gz" --directory temp_deb/
+	mv "$(PACKAGE)-$(VERSION).tar.gz" temp_deb/"$(PACKAGE)_$(VERSION).orig.tar.gz"
+	cp -fr debian temp_deb/"$(PACKAGE)-$(VERSION)"
+	cd temp_deb/"$(PACKAGE)-$(VERSION)"/; \
+	dpkg-buildpackage -us -uc -rfakeroot
+	if [ ! -d "release" ]; then \
+		mkdir release/; \
+	fi
+	mv temp_deb/*.deb release/
+	rm -rf temp_deb
+
