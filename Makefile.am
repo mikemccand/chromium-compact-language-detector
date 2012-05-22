@@ -12,7 +12,7 @@ pkgconfig_DATA = cld.pc
 check_PROGRAMS = basic_test
 
 basic_test_SOURCES = tests/basic_test.cc
-basic_test_CXXFLAGS = -Wall -fPIC -Isrc/ -O2 -DCLD_WINDOWS
+basic_test_CXXFLAGS = -Wall -fPIC -Isrc/ -I../src -O2 -DCLD_WINDOWS
 basic_test_LDFLAGS = -lcld -Lsrc/ -lstdc++
 
 TESTS = basic_test
