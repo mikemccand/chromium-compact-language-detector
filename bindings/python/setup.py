@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from distutils.core import setup, Extension
+import distutils.core
 import platform
 import subprocess
 import sys
@@ -37,13 +38,27 @@ defines = [('CLD_WINDOWS', None)]
 if platform.system() == 'Windows':
   defines.append(('WIN32', None))
 
+# Test suite
+class cldtest(distutils.core.Command):
+    # user_options, initialize_options and finalize_options must be overriden.
+    user_options = []
+    def initialize_options(self):
+        pass
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        errno = subprocess.call([sys.executable, 'tests/cld_test.py'])
+        raise SystemExit(errno)
+
 module = Extension('cld',
                    language='c++',
                    include_dirs = include_dirs,
                    library_dirs = library_dirs,
                    define_macros = defines,
                    libraries = ['cld'],
-                   sources=['src/pycldmodule.cc'])
+                   sources=['src/pycldmodule.cc'],
+                   )
 
 setup(name='chromium_compact_language_detector',
       version='0.031415',
@@ -61,5 +76,6 @@ setup(name='chromium_compact_language_detector',
         'Programming Language :: C++',
         'Programming Language :: Python',
         'Development Status :: 4 - Beta',
-        ]
+        ],
+      cmdclass = {'test': cldtest},
       )

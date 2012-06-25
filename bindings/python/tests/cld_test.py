@@ -1,11 +1,34 @@
 # coding=utf-8
 # Copyright (c) 2009 The Chromium Authors. All rights reserved.
+# Copyright (c) 2012 Jehan. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the COPYING file.
 
+import os
+import sys
+import stat
+# I'll assume this is run from the setup.py.
+build_dir = os.path.join(os.getcwd(), 'build')
+try:
+    module_dir = None
+    for file_name in os.listdir(build_dir):
+        if file_name[:4] == 'lib.':
+            module_path = os.path.join(build_dir, file_name, 'cld.so')
+            try:
+                module_stats = os.stat(module_path)
+            except OSError:
+                continue
+            if stat.S_ISREG(module_stats.st_mode):
+                module_dir = os.path.join(build_dir, file_name)
+    if module_dir is None:
+        print 'build/ directory empty. Did you run `./setup.py build` first?'
+        sys.exit(os.EX_USAGE)
+except OSError:
+    print 'build/ directory absent. Did you run `./setup.py build` first?'
+    sys.exit(os.EX_USAGE)
+sys.path.insert(0, module_dir)
 import cld
 import unittest
-import sys
 
 from testData import *
 
