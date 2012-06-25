@@ -7,6 +7,8 @@ $ ./setup.py install
 ----
 Before installing, you might want to test compilation with:
 $ ./setup.py build
+$ ./setup.py test
+If the test fails, there must be a problem with your library. I would suggest you to report us a bug.
 
 All typical options of a Python setup are available. For details, check:
 $ ./setup.py install --help
