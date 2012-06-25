@@ -2,4 +2,4 @@
     Maintainer.
 
 - Jehan <jehan at mygengo.com>
-    Packaging (Makefile, pkg-config, libtool).
+    Packaging (setup.py, pkg-config, libtool).
