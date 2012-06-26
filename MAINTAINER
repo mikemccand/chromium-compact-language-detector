@@ -53,12 +53,34 @@ $ make release
 You'll find under release/ a .tar.gz for manual installation and 2 .deb for Debian/Ubuntu inclusion.
 Test the .deb in particular by installing them and trying them.
 
+Finally tag the repository at the revision the release has been made with the following command:
+$ hg tag cld-{version}
+For instance:
+$ hg tag cld-0.1
+
 ==============
 Python library
 ==============
 
-- update versionning in setup.py, in the setup() function, there is a version argument.
-- Run:
-$ python setup.py register
+(1) update versionning in setup.py, in the setup() function, there is a version argument.
+
+(2) Build then test the distribution before release:
+$ python setup.py sdist
+
+A dist/ directory will be created. Verify that it contains all necessary packages for installation (source files, test files, etc.).
+If some files are missing, you may need to update the MANIFEST.in.
+Simplest way to check the package is by untaring the file inside, and try to build with:
+$ python setup.py build
+Then test:
+$ python setup.py test
+
+(3) Finally release:
+[ $ python setup.py register ] => actually this does not seem necessary for updates.
+$ python setup.py sdist upload
 
 Then follow instructions if any.
+
+Finally tag the repository at the revision the release has been made with the following command:
+$ hg tag pycld-{version}
+For instance:
+$ hg tag pycld-0.1
