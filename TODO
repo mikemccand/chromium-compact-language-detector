@@ -27,8 +27,6 @@ Jehan's TODO list
 - Check last commits upstream that have not been included yet and merge if needed.
 
 - Make better C++ check test (Note: Google original code has some unit test files. Probably they can be adapted).
-- Include the python tests into bindings/python `make check`.
-- Add build/ and other generated files into cleaned out files by bindings/python `make clean`.
 
 - Make a static deb package?
 - Make .rpm and .ebuild packages?

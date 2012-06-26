@@ -61,7 +61,7 @@ module = Extension('cld',
                    )
 
 setup(name='chromium_compact_language_detector',
-      version='0.031415',
+      version='0.1',
       author='Michael McCandless',
       author_email='mail@mikemccandless.com',
       description='Python bindings around Google Chromium\'s embedded compact language detection library',
@@ -76,6 +76,8 @@ setup(name='chromium_compact_language_detector',
         'Programming Language :: C++',
         'Programming Language :: Python',
         'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Topic :: Text Processing :: Linguistic'
         ],
       cmdclass = {'test': cldtest},
       )

@@ -1,13 +1,17 @@
 NOTE: This file is a maintainer file and should not be included in the distribution. In other words, it must not appear anywhere in the
 Makefile.am.
 
+===========
+C++ library
+===========
+
 C++ library versionning
 =======================
 
 Public API version
 ------------------
 
-When the versionning changes, modify the following lines in the file `configure.ac`:
+When the version changes, modify the following lines in the file `configure.ac`:
 AC_INIT([libcld], [0.1], [lucene@mikemccandless.com], [compact-language-detector], [http://code.google.com/p/chromium-compact-language-detector/])
 AC_SUBST([CLD_API_VERSION], [0.1])
 
@@ -27,10 +31,10 @@ AC_SUBST([CLD_LT_VERSION], [0:0:0])
 Makefile Targets
 ================
 
-- make dist: generates compact-language-detector-0.1.tar.gz (0.1 will be replaced public version you set earlier).
+- make dist: generates compact-language-detector-0.1.tar.gz (0.1 will be replaced by the public version you set earlier).
 
-- make distcheck: same as make dist but will try a fake distribution installation in a temporary folder to verify that nothing will be
-  installed.
+- make distcheck: same as make dist but will simulate a distribution installation in a temporary folder to verify that the generated package
+  contains everything necessary for a full installation.
 
 - make pkg-deb: creates a library (only dynamic) package and a -dev (with headers) packages under release/.
 
@@ -49,3 +53,12 @@ $ make release
 You'll find under release/ a .tar.gz for manual installation and 2 .deb for Debian/Ubuntu inclusion.
 Test the .deb in particular by installing them and trying them.
 
+==============
+Python library
+==============
+
+- update versionning in setup.py, in the setup() function, there is a version argument.
+- Run:
+$ python setup.py register
+
+Then follow instructions if any.
