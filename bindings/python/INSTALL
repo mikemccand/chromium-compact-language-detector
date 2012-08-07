@@ -4,6 +4,15 @@ Installation Instructions
 Build this python binding in a single command using a typical setup.py:
 $ ./setup.py install
 
+NOTE: if this step fails saying that pkg-config cannot find cld on
+your system (and you're certain you did install it), you may have to
+set the PKG_CONFIG_PATH manually, eg (exact syntax depends on shell):
+
+  export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+
+(If /usr/local/lib is where cld was installed).  And then re-run
+./setup.py install.
+
 ----
 Before installing, you might want to test compilation with:
 $ ./setup.py build
