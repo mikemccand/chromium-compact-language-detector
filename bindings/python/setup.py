@@ -17,14 +17,15 @@ except (subprocess.CalledProcessError, OSError):
 # Checking existence and path of `cld` C++ library.
 try:
     call = subprocess.Popen(['pkg-config', '--libs', '--cflags', 'cld'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-    (output, error) = call.communicate()
-    if error <> '':
+    output, error = call.communicate()
+    if len(error) != 0:
         sys.stderr.write('`pkg-config --libs --cflags cld` returns in error: \n' + error + '\n')
         raise OSError
 except (subprocess.CalledProcessError, OSError):
     sys.stderr.write('The `cld` C++ library is absent from this system. Please install it.\n')
     sys.exit(os.EX_CONFIG)
 
+output = output.decode('UTF-8')
 include_dirs = ['.']
 library_dirs = ['.']
 for flags in output.split():
@@ -51,6 +52,8 @@ class cldtest(distutils.core.Command):
         errno = subprocess.call([sys.executable, 'tests/cld_test.py'])
         raise SystemExit(errno)
 
+#                   include_dirs=['../../src/encodings/compact_lang_det', '../../src'],
+#                   library_dirs=['../../src/.libs'],
 module = Extension('cld',
                    language='c++',
                    include_dirs = include_dirs,
