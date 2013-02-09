@@ -18,6 +18,8 @@ except (subprocess.CalledProcessError, OSError):
 try:
     call = subprocess.Popen(['pkg-config', '--libs', '--cflags', 'cld'], stdout = subprocess.PIPE, stderr = subprocess.PIPE)
     output, error = call.communicate()
+    output = output.decode('UTF-8')
+    error = error.decode('UTF-8')
     if len(error) != 0:
         sys.stderr.write('`pkg-config --libs --cflags cld` returns in error: \n' + error + '\n')
         raise OSError
@@ -25,7 +27,6 @@ except (subprocess.CalledProcessError, OSError):
     sys.stderr.write('The `cld` C++ library is absent from this system. Please install it.\n')
     sys.exit(os.EX_CONFIG)
 
-output = output.decode('UTF-8')
 include_dirs = ['.']
 library_dirs = ['.']
 for flags in output.split():
