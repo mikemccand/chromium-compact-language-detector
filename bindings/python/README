@@ -1,7 +1,8 @@
 Python's Compact Language Detector
 ==================================
 
-* Last README's Update: 05/22/2012
+* Last README's Update: 02/09/2013
+* Supports Python2 and Python3 (as of version 0.2)
 * License: BSD-style license (see `COPYING`).
 * Website: https://code.google.com/p/chromium-compact-language-detector/
 * Authors: see `AUTHORS`.
@@ -22,8 +23,9 @@ showing how to use it.
 Platforms
 ---------
 
-Tested on Fedora 13 with Python 2.6.4 and Debian with Python 2.6.6.
-It passes all tests in test.py there (python -u test.py).
+Tested on Fedora 13 with Python 2.6.4 and Python 3.2.3, and Debian
+with Python 2.6.6. It passes all tests in test.py there (python -u
+test.py).
 
 USING THE PYTHON LIBRARY
 ------------------------

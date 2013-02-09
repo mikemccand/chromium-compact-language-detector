@@ -1,5 +1,3 @@
-test on py 3.x
-
 build py extension on windows
 
 is there a unit test that also covers extended langs?
