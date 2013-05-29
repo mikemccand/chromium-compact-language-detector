@@ -85,4 +85,3 @@ setup(name='chromium_compact_language_detector',
         ],
       cmdclass = {'test': cldtest},
       )
-
