@@ -1,3 +1,0 @@
-Please checkout Mercurial repository for change logs:
-$ hg clone https://code.google.com/p/chromium-compact-language-detector/
-$ hg log

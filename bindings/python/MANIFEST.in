@@ -1,3 +1,0 @@
-include *.py COPYING INSTALL AUTHORS
-recursive-include src *.cc *.h
-recursive-include tests *.py
