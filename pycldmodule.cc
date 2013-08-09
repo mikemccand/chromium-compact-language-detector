@@ -187,17 +187,8 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                  &isReliable);
   Py_END_ALLOW_THREADS
 
-  int length = 0;
+  PyObject *details = PyTuple_New(3);
   for(int idx=0;idx<3;idx++) {
-    CLD2::Language lang = language3[idx];
-    if (lang == CLD2::UNKNOWN_LANGUAGE) {
-      length = idx;
-      break;
-    }
-  }
-
-  PyObject *details = PyTuple_New(length);
-  for(int idx=0;idx<length;idx++) {
     CLD2::Language lang = language3[idx];
     // Steals ref:
     PyTuple_SET_ITEM(details, idx, Py_BuildValue("(ssif)",

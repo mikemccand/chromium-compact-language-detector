@@ -342,6 +342,11 @@ class TestCLD(unittest.TestCase):
       detector.detect(fr_en_Latn, debugHTML=True, debugVerbose=True)
       detector.detect(fr_en_Latn, debugHTML=True, debugEcho=True)
 
+  def test_unreliable(self):
+    for detector in cld2, cld2full:
+      isReliable, textBytesFound, details, vectors = detector.detect('interaktive infografik \xc3\xbcber videospielkonsolen', returnVectors = True)
+      self.assertEquals(3, len(details))
+
 if __name__ == '__main__':
   try:
     unittest.main()
