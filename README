@@ -14,7 +14,7 @@ To build:
   * First checkout cld2 and run internal/compile_libs.sh.  This will
     create both libcld2.so (detects 83 languages) and libcld2_full.so
     (detects 163 languages).  Install those libraries somewhere on
-    your LD_LIBRARY_PATH.
+    your LD_LIBRARY_PATH, for example copy them into /usr/lib64.
 
   * Edit both setup.py and setup_full.py: edit CLD2_PATH to point to
     where you checked out the CLD2 sources.
@@ -23,6 +23,10 @@ To build:
 
   * python setup_full.py build
 
+Note that all Python sources work with both python 2.x and 3.x so if
+you want to install for python3.x just repeat the above steps using
+python3 (or whatever python command runs python 3.x in your
+environment).
 
 To test both the small and full language tables:
 
