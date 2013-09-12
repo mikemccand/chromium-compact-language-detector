@@ -44,7 +44,7 @@ import cld2
 
 VERBOSE = False
 
-fr_en_Latn = 'France is the largest country in Western Europe and the third-largest in Europe as a whole. A accès aux chiens et aux frontaux qui lui ont été il peut consulter et modifier ses collections et exporter Cet article concerne le pays européen aujourd’hui appelé République française. Pour d’autres usages du nom France, Motoring events began soon after the construction of the first successful gasoline-fueled automobiles. The quick brown fox jumped over the lazy dog'
+fr_en_Latn = 'France is the largest country in Western Europe and the third-largest in Europe as a whole. A accès aux chiens et aux frontaux qui lui ont été il peut consulter et modifier ses collections et exporter Cet article concerne le pays européen aujourd’hui appelé République française. Pour d’autres usages du nom France, Pour une aide rapide et effective, veuiller trouver votre aide dans le menu ci-dessus. Motoring events began soon after the construction of the first successful gasoline-fueled automobiles. The quick brown fox jumped over the lazy dog'
 
 testData = (
   ('ENGLISH', 'confiscation of goods is assigned as the penalty part most of the courts consist of members and when it is necessary to bring public cases before a jury of members two courts combine for the purpose the most important cases of all are brought jurors or'),
@@ -137,12 +137,7 @@ testData = (
   ('INDONESIAN', 'sukiyaki wikipedia indonesia ensiklopedia bebas berbahasa bebas berbahasa indonesia langsung ke navigasi cari untuk pengertian lain dari sukiyaki lihat sukiyaki irisan tipis daging sapi sayur sayuran dan tahu di dalam panci besi yang dimasak di atas meja makan dengan cara direbus sukiyaki dimakan dengan mence'),
   ('MALAY', 'sukiyaki wikipedia bahasa melayu ensiklopedia bebas sukiyaki dari wikipedia bahasa melayu ensiklopedia bebas lompat ke navigasi gelintar sukiyaki sukiyaki  hirisan tipis daging lembu sayur sayuran dan tauhu di dalam periuk besi yang dimasak di atas meja makan dengan cara rebusan sukiyaki dimakan dengan mence'),
 
-  # NOTE: in cld_unittest.cpp, this test passes FRENCH, but that is
-  # using the "summary" language returned by
-  # ExtDetectLanguageSummary, which we now discard in Python.
-  # Technically English is the better answer (53.5% of the text is
-  # English):
-  ('ENGLISH', fr_en_Latn),
+  ('FRENCH', fr_en_Latn),
 
   # This is just the "version marker":
   ('WELSH', 'qpdbmrmxyzptlkuuddlrlrbas las les qpdbmrmxyzptlkuuddlrlrbas el la qpdbmrmxyzptlkuuddlrlrbas'),
@@ -214,7 +209,7 @@ fullTestData = testData[:-1] + (
   ('SINDHI', ' اضافو ٿي ٿيو پر اها خبر عثمان کي بعد پيئي ته سگريٽ ڇڪيندڙ مسلمان نه هو بلڪ هندو هو دڪان تي پهچي عثمان ڪسبت کولي گراهڪن جي سيرب لاهڻ شروع ڪئي پر'),
   ('SISWANT', ' bakhokhintsela yesikhashana bafake imininingwane ye akhawunti leliciniso kulelifomu nangabe akukafakwa imininingwane leliciniso imali lekhokhiwe angeke ifakwe kumkhokhintsela lofanele imininingwane ye akhawunti ime ngalendlela lelandzelako inombolo'),
   ('SOMALI', ' a oo maanta bogga koobaad ugu qoran yahey beesha caalamka laakiin si kata oo beesha caalamku ula guntato soomaaliya waxa aan shaki ku jirin in aakhirataanka dadka soomaalida oo kaliya ay yihiin ku soomaaliya ka saari kara dhibka ay ku jirto'),
-  ('SUNDANESE', ' alus gampang deuih uhun im gmail obrolan ulah disimpen na koropak kuring simpen obrolan dina koropak kuring obrolan obrolan anjeun teu boga arsip obrolan slovak slovenia vietnam catalan czech estonia hindi lithuania romania tagalog thai turkish édit iber'),
+  ('SUNDANESE', 'Nu ngatur kahirupan warga, keur kapentingan pamarentahan diatur ku RT, RW jeung Kepala Dusun, sedengkeun urusan adat dipupuhuan ku Kuncen jeung kepala adat. Sanajan Kampung Kuta teu pati anggang jeung lembur sejenna nu aya di wewengkon Desa Pasir Angin, tapi boh wangunan imah atawa tradisi kahirupan masarakatna nenggang ti nu lian.'),
   ('TAJIK', ' адолат ва инсондӯстиро бар фашизм нажодпарастӣ ва адоват тарҷеҳ додааст чоп кунед ба дигарон фиристед чоп кунед ба дигарон фиристед'),
   ('TATAR', 'ачарга да бирмәде чәт чәт килеп тора безнең абыйнымы олы абыйнымы эштән'),
   ('TATAR', ' alarnı eşkärtü proğramnarın eşläwen däwam itü tatar söylämen buldıru wä sizep alu sistemnarın eşläwen däwat itü häm başqalar yılnıñ mayında tatar internetı ictimağıy oyışması milli ts isemle berençe däräcäle häm tat'),
@@ -272,7 +267,7 @@ class TestCLD(unittest.TestCase):
           print('  details: %s' % str(details))
 
         try:
-          self.assertEqual(expectedLangName, detectedLangName, '%s != %s; details: %s' % (detectedLangName, expectedLangName, str(details)))
+          self.assertEquals(expectedLangName, detectedLangName, '%s != %s; details: %s' % (detectedLangName, expectedLangName, str(details)))
         except:
           traceback.print_exc()
           failed = True
