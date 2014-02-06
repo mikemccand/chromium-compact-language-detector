@@ -44,6 +44,7 @@ module = Extension('cld2full',
                    include_dirs = ['%s/public' % CLD2_PATH, '%s/internal' % CLD2_PATH],
                    libraries = ['cld2_full'],
                    sources=['pycldmodule.cc', 'encodings.cc'],
+                   libdirs = ['./build'],
                    )
 
 setup(name='chromium_compact_language_detector',

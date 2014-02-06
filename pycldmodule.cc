@@ -423,7 +423,7 @@ initcld2()
   upto = 0;
 
 #ifdef CLD2_FULL
-  PyObject* detLangs = PyTuple_New(163);
+  PyObject* detLangs = PyTuple_New(164);
 
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ABKHAZIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("AFAR"));
@@ -442,6 +442,7 @@ initcld2()
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BENGALI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BIHARI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BISLAMA"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BOSNIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BRETON"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BULGARIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BURMESE"));
@@ -589,9 +590,10 @@ initcld2()
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ZHUANG"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ZULU"));
 #else
-  PyObject* detLangs = PyTuple_New(83);
+  PyObject* detLangs = PyTuple_New(89);
   
-  // List sent by Dick Sites on 7/17/2013:
+  // List originally sent by Dick Sites on 7/17/2013, then I
+  // added 6 new languages from the Jan 2014 release:
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("AFRIKAANS"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ALBANIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ARABIC"));
@@ -601,6 +603,7 @@ initcld2()
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BELARUSIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BENGALI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BIHARI"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BOSNIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("BULGARIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("CATALAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("CEBUANO"));
@@ -623,11 +626,13 @@ initcld2()
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("GREEK"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("GUJARATI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("HAITIAN_CREOLE"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("HAUSA"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("HEBREW"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("HINDI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("HMONG"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("HUNGARIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ICELANDIC"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("IGBO"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("INDONESIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("INUKTITUT"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("IRISH"));
@@ -661,6 +666,7 @@ initcld2()
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("SINHALESE"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("SLOVAK"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("SLOVENIAN"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("SOMALI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("SPANISH"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("SWAHILI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("SWEDISH"));
@@ -675,6 +681,8 @@ initcld2()
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("VIETNAMESE"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("WELSH"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("YIDDISH"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("YORUBA"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ZULU"));
 #endif
 
   // Steals ref:
