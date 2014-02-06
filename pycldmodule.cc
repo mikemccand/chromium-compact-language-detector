@@ -423,7 +423,7 @@ initcld2()
   upto = 0;
 
 #ifdef CLD2_FULL
-  PyObject* detLangs = PyTuple_New(164);
+  PyObject* detLangs = PyTuple_New(165);
 
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("ABKHAZIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("AFAR"));
@@ -519,6 +519,7 @@ initcld2()
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("MAURITIAN_CREOLE"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("MONGOLIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("NAURU"));
+  PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("NDEBELE"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("NEPALI"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("NORWEGIAN"));
   PyTuple_SET_ITEM(detLangs, upto++, PyUnicode_FromString("NORWEGIAN_N"));
