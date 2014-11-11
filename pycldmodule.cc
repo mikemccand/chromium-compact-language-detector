@@ -71,6 +71,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   int flagVerbose = 0;
   int flagQuiet = 0;
   int flagEcho = 0;
+  int flagBestEffort = 0;
 
   static const char *kwList[] = {"utf8Bytes",
                                  "isPlainText",
@@ -103,9 +104,15 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                  /* Echo every input buffer to stderr. */
                                  "debugEcho",
 
+                                 /* If true, allow low-quality results for short text,
+                                    rather than forcing the result to UNKNOWN_LANGUAGE. This may be of use for
+                                    those desiring approximate results on short input text, but there is no claim
+                                    that these results ave very good. make a guess at the language even if quality is low (text is short) */
+                                 "bestEffort",
+
                                  NULL};
 
-  if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|izzzziiiiiii",
+  if (!PyArg_ParseTupleAndKeywords(args, kwArgs, "s#|izzzziiiiiiii",
                                    (char **) kwList,
                                    &bytes, &numBytes,
                                    &isPlainText,
@@ -119,7 +126,8 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                                    &flagCR,
                                    &flagVerbose,
                                    &flagQuiet,
-                                   &flagEcho)) {
+                                   &flagEcho,
+                                   &flagBestEffort)) {
     return 0;
   }
 
@@ -141,6 +149,9 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   }
   if (flagEcho != 0) {
     flags |= CLD2::kCLDFlagEcho;
+  }
+  if (flagBestEffort != 0) {
+    flags |= CLD2::kCLDFlagBestEffort;
   }
 
   PyObject *CLDError = GETSTATE(self)->error;
@@ -172,20 +183,27 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
   int percent3[3];
   double normalized_score3[3];
   int textBytesFound;
+  int validPrefixBytes;
   CLD2::ResultChunkVector resultChunkVector;
 
   Py_BEGIN_ALLOW_THREADS
-  CLD2::ExtDetectLanguageSummary(bytes, numBytes,
-                                 isPlainText != 0,
-                                 &cldHints,
-                                 flags,
-                                 language3,
-                                 percent3,
-                                 normalized_score3,
-                                 returnVectors != 0 ? &resultChunkVector : 0,
-                                 &textBytesFound,
-                                 &isReliable);
+  CLD2::ExtDetectLanguageSummaryCheckUTF8(bytes, numBytes,
+                                          isPlainText != 0,
+                                          &cldHints,
+                                          flags,
+                                          language3,
+                                          percent3,
+                                          normalized_score3,
+                                          returnVectors != 0 ? &resultChunkVector : 0,
+                                          &textBytesFound,
+                                          &isReliable,
+                                          &validPrefixBytes);
   Py_END_ALLOW_THREADS
+
+  if (validPrefixBytes < numBytes) {
+    PyErr_Format(CLDError, "input contains invalid UTF-8 around byte %d (of %d)", validPrefixBytes, numBytes);
+    return 0;
+  }
 
   PyObject *details = PyTuple_New(3);
   for(int idx=0;idx<3;idx++) {
@@ -223,6 +241,7 @@ detect(PyObject *self, PyObject *args, PyObject *kwArgs) {
                            textBytesFound,
                            details);
   }
+
   Py_DECREF(details);
   return result;
 }
@@ -231,22 +250,23 @@ const char *DOC =
   "Detect language(s) from a UTF8 string.\n\n"
 
   "Arguments:\n\n"
-  "  utf8Bytes: text to detect, encoded as UTF-8 bytes (required)\n\n"
+  "  utf8Bytes: The text to detect, encoded as UTF-8 bytes (required).  If\n"
+  "             this is not valid UTF-8, then an cld2.error is raised.\n\n"
 
-  "  isPlainText: if False, then the input is HTML and CLD will skip HTML tags,\n"
+  "  isPlainText: If False, then the input is HTML and CLD will skip HTML tags,\n"
   "               expand HTML entities, detect HTML <lang ...> tags, etc.\n\n"
 
-  "  hintTopLevelDomain: e.g., 'id' boosts Indonesian\n\n"
+  "  hintTopLevelDomain: E.g., 'id' boosts Indonesian\n\n"
 
-  "  hintLanguage: e.g., 'ITALIAN' or 'it' boosts Italian; see cld.LANGUAGES\n"
+  "  hintLanguage: E.g., 'ITALIAN' or 'it' boosts Italian; see cld.LANGUAGES\n"
   "                for all known language\n\n"
 
-  "  hintLanguageHTTPHeaders: e.g., 'mi,en' boosts Maori and English\n\n"
+  "  hintLanguageHTTPHeaders: E.g., 'mi,en' boosts Maori and English\n\n"
 
-  "  hintEncoding: e.g, 'SJS' boosts Japanese; see cld.ENCODINGS for all known\n"
+  "  hintEncoding: E.g, 'SJS' boosts Japanese; see cld.ENCODINGS for all known\n"
   "                encodings\n\n"
 
-  "  returnVectors: if True then the vectors indicating which language was\n"
+  "  returnVectors: If True then the vectors indicating which language was\n"
   "                 detected in which byte range are returned in addition to\n"
   "                 details.  The vectors are a sequence of (bytesOffset,\n"
   "                 bytesLength, languageName, languageCode), in order.\n"
@@ -264,6 +284,12 @@ const char *DOC =
   "  debugHTML: For each detection call, write an HTML file to stderr, showing the\n"
   "             text chunks and their detected languages.  See\n"
   "             docs/InterpretingCLD2UnitTestOutput.pdf to interpret this output.\n\n"
+
+  "  bestEffort: If True then allow low-quality results for short text,\n"
+  "              rather than forcing the result to UNKNOWN_LANGUAGE.  This\n"
+  "              may be of use for those desiring approximate results on\n"
+  "              short input text, but there is no claim that these result\n"
+  "              are very good.\n\n"
 
   "  debugCR: In that HTML file, force a new line for each chunk.\n\n"
 

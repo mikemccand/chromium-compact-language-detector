@@ -349,6 +349,29 @@ class TestCLD(unittest.TestCase):
       isReliable, textBytesFound, details, vectors = detector.detect('interaktive infografik \xc3\xbcber videospielkonsolen', returnVectors = True)
       self.assertEqual(3, len(details))
 
+  def test_invalid_utf8(self):
+    for detector in cld2, cld2full:
+      for i in range(100):
+        # This hits SEGV in versions before 20141016:
+        try:
+          isReliable, textBytesFound, details, vectors = detector.detect(os.urandom(100), returnVectors = True)
+        except cld2.error:
+          # expected
+          pass
+
+  def test_best_effort(self):
+    for detector in cld2, cld2full:
+      isReliable, textBytesFound, details = detector.detect('interaktive infografik \xc3\xbcber videospielkonsolen')
+
+      # Too little text:
+      self.assertFalse(isReliable)
+      self.assertEqual(details[0][0], 'Unknown')
+
+      # Do it again, forcing bestEffort:
+      isReliable, textBytesFound, details = detector.detect('interaktive infografik \xc3\xbcber videospielkonsolen', bestEffort=True)
+      self.assertTrue(isReliable)
+      self.assertNotEqual(details[0][0], 'Unknown')
+
 if __name__ == '__main__':
   try:
     unittest.main()
