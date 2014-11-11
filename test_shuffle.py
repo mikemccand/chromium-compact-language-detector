@@ -50,7 +50,7 @@ with open('../cld2/internal/test_shuffle_1000_48_666.utf8', 'rb') as f:
       correct += 1
     else:
       wrong += 1
-      print("wrong: %s vs %s" % (langCode, details)
+      print("wrong: %s vs %s: %s" % (langCode, details, text))
     #print('%s: %s, %s' % (lang, isReliable, details))
     #print('%s: %s' % (lang, source))
 
