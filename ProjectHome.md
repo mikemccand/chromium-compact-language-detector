@@ -1,0 +1,1 @@
+This project provides Python bindings to Google's Compact Language Detector: https://code.google.com/p/cld2.
